@@ -1,7 +1,7 @@
 package com.ecommerce.api.order.application.usecase
 
 import com.ecommerce.api.order.domain.Order
-import com.ecommerce.api.order.domain.Product
+import com.ecommerce.api.order.domain.product.Product
 import com.ecommerce.api.order.domain.port.OrderRepository
 
 import spock.lang.Specification
@@ -14,7 +14,7 @@ class CreateOrderTest extends Specification {
     @Subject
     CreateOrder createOrder = new CreateOrder(orderRepository)
 
-    def 'should create a new order and save it and return id'() {
+    def 'should create a new order save it and return id'() {
         given:
             Product product = new Product()
         when:
