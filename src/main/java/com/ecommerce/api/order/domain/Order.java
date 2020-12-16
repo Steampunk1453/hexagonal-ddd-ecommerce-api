@@ -2,6 +2,8 @@ package com.ecommerce.api.order.domain;
 
 import java.util.UUID;
 
+import com.ecommerce.api.order.domain.product.Product;
+
 public class Order {
 
     private UUID id;
@@ -19,5 +21,8 @@ public class Order {
 
     public Product getProduct() {
         return product;
+    }
+
+    public void addProduct(final Product product) {
     }
 }
