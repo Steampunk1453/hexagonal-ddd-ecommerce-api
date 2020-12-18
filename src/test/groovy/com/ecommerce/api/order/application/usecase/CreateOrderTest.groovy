@@ -1,5 +1,7 @@
 package com.ecommerce.api.order.application.usecase
 
+import org.javamoney.moneta.Money
+
 import com.ecommerce.api.order.domain.Order
 import com.ecommerce.api.order.domain.product.Product
 import com.ecommerce.api.order.domain.port.OrderRepository
@@ -16,7 +18,9 @@ class CreateOrderTest extends Specification {
 
     def 'should create a new order save it and return id'() {
         given:
-            Product product = new Product()
+            UUID id = UUID.randomUUID()
+            Money value = Money.of(new BigDecimal(2.5), "EUR")
+            Product product = new Product(id, "product", value)
         when:
             UUID result = createOrder.execute(product)
         then:

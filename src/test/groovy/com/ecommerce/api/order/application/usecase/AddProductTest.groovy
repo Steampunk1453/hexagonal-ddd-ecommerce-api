@@ -1,5 +1,7 @@
 package com.ecommerce.api.order.application.usecase
 
+import org.javamoney.moneta.Money
+
 import com.ecommerce.api.order.domain.Order
 import com.ecommerce.api.order.domain.product.Product
 import com.ecommerce.api.order.domain.port.OrderRepository
@@ -17,7 +19,8 @@ class AddProductTest extends Specification {
     def 'should get an order and update it with a product'() {
         given:
             UUID id = UUID.randomUUID()
-            Product product = new Product()
+            Money value = Money.of(new BigDecimal(2.5), "EUR")
+            Product product = new Product(id, "product", value)
         when:
             updateOrder.execute(id, product)
         then:
