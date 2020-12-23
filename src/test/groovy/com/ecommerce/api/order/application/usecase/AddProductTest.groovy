@@ -14,7 +14,7 @@ class AddProductTest extends Specification {
     OrderRepository repository = Mock()
 
     @Subject
-    AddProduct updateOrder = new AddProduct(repository)
+    AddProduct addProduct = new AddProduct(repository)
 
     def 'should get an order and update it with a product'() {
         given:
@@ -22,7 +22,7 @@ class AddProductTest extends Specification {
             Money value = Money.of(new BigDecimal(2.5), "EUR")
             Product product = new Product(id, "product", value)
         when:
-            updateOrder.execute(id, product)
+            addProduct.execute(id, product)
         then:
             1 * repository.get(_ as UUID) >> new Order(id, product)
             1 * repository.update(_ as Order)
