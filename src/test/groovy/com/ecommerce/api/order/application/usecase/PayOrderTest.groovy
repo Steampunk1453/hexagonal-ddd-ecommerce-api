@@ -35,6 +35,7 @@ class PayOrderTest extends Specification {
         then:
             1 * orderRepository.get(_ as UUID) >> new Order(id, product)
             1 * paymentRepository.pay(_ as MonetaryAmount, _ as CreditCard) >> paid
+            (0..1) * orderRepository.save(_ as Order)
         where:
             paid << [true, false]
     }
