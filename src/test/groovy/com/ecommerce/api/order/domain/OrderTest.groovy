@@ -2,7 +2,8 @@ package com.ecommerce.api.order.domain
 
 import org.javamoney.moneta.Money
 
-import com.ecommerce.api.order.domain.product.Product
+import com.ecommerce.api.order.domain.model.Order
+import com.ecommerce.api.order.domain.model.Product
 
 import spock.lang.Specification
 

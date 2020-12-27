@@ -1,8 +1,8 @@
-package com.ecommerce.api.order.domain.payment.port;
+package com.ecommerce.api.order.domain.port;
 
 import org.javamoney.moneta.Money;
 
-import com.ecommerce.api.order.domain.payment.CreditCard;
+import com.ecommerce.api.order.domain.model.CreditCard;
 
 public interface PaymentRepository {
 

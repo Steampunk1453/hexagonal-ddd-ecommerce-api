@@ -2,7 +2,7 @@ package com.ecommerce.api.order.domain.port;
 
 import java.util.UUID;
 
-import com.ecommerce.api.order.domain.Order;
+import com.ecommerce.api.order.domain.model.Order;
 
 public interface OrderRepository {
 

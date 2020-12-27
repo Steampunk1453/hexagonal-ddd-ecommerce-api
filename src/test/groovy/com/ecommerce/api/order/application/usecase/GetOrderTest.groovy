@@ -12,7 +12,7 @@ class GetOrderTest extends Specification {
     @Subject
     GetOrder getOrder = new GetOrder(repository)
 
-    def 'should get a order by id'() {
+    def 'should get an order by id'() {
         given:
             UUID id = UUID.randomUUID()
         when:

@@ -2,7 +2,7 @@ package com.ecommerce.api.order.application.usecase;
 
 import java.util.UUID;
 
-import com.ecommerce.api.order.domain.product.Product;
+import com.ecommerce.api.order.domain.model.Product;
 import com.ecommerce.api.order.domain.port.OrderRepository;
 
 public record AddProduct(OrderRepository repository) {

@@ -1,12 +1,10 @@
-package com.ecommerce.api.order.domain;
+package com.ecommerce.api.order.domain.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
-import com.ecommerce.api.order.domain.product.Product;
 
 public class Order {
 

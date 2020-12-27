@@ -2,8 +2,8 @@ package com.ecommerce.api.order.application.usecase
 
 import org.javamoney.moneta.Money
 
-import com.ecommerce.api.order.domain.Order
-import com.ecommerce.api.order.domain.product.Product
+import com.ecommerce.api.order.domain.model.Order
+import com.ecommerce.api.order.domain.model.Product
 import com.ecommerce.api.order.domain.port.OrderRepository
 
 import spock.lang.Specification
@@ -11,12 +11,12 @@ import spock.lang.Subject
 
 class CreateOrderTest extends Specification {
 
-    OrderRepository orderRepository = Mock()
+    OrderRepository repository = Mock()
 
     @Subject
-    CreateOrder createOrder = new CreateOrder(orderRepository)
+    CreateOrder createOrder = new CreateOrder(repository)
 
-    def 'should create a new order save it and return id'() {
+    def 'should create a new order and return id'() {
         given:
             UUID id = UUID.randomUUID()
             Money value = Money.of(new BigDecimal(2.5), "EUR")
@@ -24,7 +24,7 @@ class CreateOrderTest extends Specification {
         when:
             UUID result = createOrder.execute(product)
         then:
-            1 * orderRepository.save(_ as Order)
+            1 * repository.save(_ as Order)
             result != null
     }
 

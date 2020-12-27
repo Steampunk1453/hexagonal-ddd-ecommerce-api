@@ -10,13 +10,13 @@ class DeleteProductTest extends Specification {
     OrderRepository repository = Mock()
 
     @Subject
-    DeleteProduct deleteOrder = new DeleteProduct(repository)
+    DeleteProduct deleteProduct = new DeleteProduct(repository)
 
     def 'should delete an order by id'() {
         given:
             UUID id = UUID.randomUUID()
         when:
-            deleteOrder.execute(id)
+            deleteProduct.execute(id)
         then:
             1 * repository.delete(_ as UUID)
     }
