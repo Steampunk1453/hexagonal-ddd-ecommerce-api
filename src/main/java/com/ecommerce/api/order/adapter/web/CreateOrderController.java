@@ -22,7 +22,7 @@ public class CreateOrderController {
 
     @PostMapping
     ResponseEntity<String> create(@RequestBody final CreateOrderRequest createOrderRequest) {
-         createOrder.execute(null);
+         createOrder.execute(createOrderRequest.productId(), createOrderRequest.quantity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
