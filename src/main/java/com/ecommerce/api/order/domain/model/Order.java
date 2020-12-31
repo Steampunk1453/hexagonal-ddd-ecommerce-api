@@ -10,53 +10,46 @@ public class Order {
 
     private UUID id;
 
-    private Product product;
-
     private List<OrderItem> orderItems;
 
-    private BigDecimal price;
+    private BigDecimal totalPrice;
 
-    public Order(final UUID id, final Product product) {
+    public Order(final UUID id, final Product product, final Integer quantity) {
         this.id = id;
-        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product)));;
-        this.product = product;
-        this.price =  product.value().getNumberStripped();
+        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity)));;
+        this.totalPrice =  product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity));
     }
 
     public UUID getId() {
         return id;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
-    public void addProduct(final Product product) {
+    public void addProduct(final Product product, Integer quantity) {
         validateProduct(product);
-        orderItems.add(new OrderItem(product));
-        price = price.add(product.value().getNumberStripped());
+        orderItems.add(new OrderItem(product, quantity));
+        totalPrice = totalPrice.add(product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity)));
     }
 
-    public void remove(final UUID id) {
-        final OrderItem orderItem = getOrderItem(id);
+    public void removeProduct(final UUID productId) {
+        final OrderItem orderItem = getOrderItem(productId);
         orderItems.remove(orderItem);
-        price = price.subtract(orderItem.product().value().getNumberStripped());
+        totalPrice = totalPrice.subtract(orderItem.product().value().getNumberStripped().multiply(BigDecimal.valueOf(orderItem.quantity())));
     }
 
-    private OrderItem getOrderItem(final UUID id) {
+    private OrderItem getOrderItem(final UUID productId) {
         return orderItems.stream()
             .filter(orderItem -> orderItem.product().id()
-                .equals(id))
+                .equals(productId))
             .findFirst()
-            .orElseThrow(() -> new DomainException("Product with " + id + " doesn't exist."));
+            .orElseThrow(() -> new DomainException("Product with " + productId + " doesn't exist."));
     }
 
     private void validateProduct(final Product product) {

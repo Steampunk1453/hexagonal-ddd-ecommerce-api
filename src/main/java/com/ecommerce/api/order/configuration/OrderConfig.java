@@ -7,13 +7,14 @@ import com.ecommerce.api.order.application.usecase.CreateCustomer;
 import com.ecommerce.api.order.application.usecase.CreateOrder;
 import com.ecommerce.api.order.domain.port.CustomerRepository;
 import com.ecommerce.api.order.domain.port.OrderRepository;
+import com.ecommerce.api.order.domain.port.ProductRepository;
 
 @Configuration
 public class OrderConfig {
 
     @Bean
-    CreateOrder createOrder(final OrderRepository orderRepository) {
-        return new CreateOrder(orderRepository);
+    CreateOrder createOrder(final OrderRepository orderRepository, final ProductRepository productRepository) {
+        return new CreateOrder(orderRepository, productRepository);
     }
 
     @Bean

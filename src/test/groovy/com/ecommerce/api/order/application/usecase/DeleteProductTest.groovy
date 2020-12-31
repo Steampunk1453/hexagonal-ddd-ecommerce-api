@@ -1,5 +1,7 @@
 package com.ecommerce.api.order.application.usecase
 
+import com.ecommerce.api.order.domain.OrderProvider
+import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
 
 import spock.lang.Specification
@@ -12,13 +14,17 @@ class DeleteProductTest extends Specification {
     @Subject
     DeleteProduct deleteProduct = new DeleteProduct(repository)
 
-    def 'should delete an order by id'() {
+    def 'should delete a product by id'() {
         given:
-            UUID id = UUID.randomUUID()
+            Order order = Spy(OrderProvider.buildOrder())
+            UUID orderId = order.id
+            UUID productId = order.orderItems.get(0).product().id()
         when:
-            deleteProduct.execute(id)
+            deleteProduct.execute(orderId, productId)
         then:
-            1 * repository.delete(_ as UUID)
+            1 * repository.get(_ as UUID) >> order
+            1 * order.removeProduct(_ as UUID)
+            1 * repository.save(_ as Order)
     }
 
 }
