@@ -2,15 +2,16 @@ package com.ecommerce.api.order.application.usecase;
 
 import java.util.UUID;
 
-import com.ecommerce.api.order.domain.product.Product;
 import com.ecommerce.api.order.domain.port.OrderRepository;
+import com.ecommerce.api.order.domain.port.ProductRepository;
 
-public record AddProduct(OrderRepository repository) {
+public record AddProduct(OrderRepository orderRepository, ProductRepository productRepository) {
 
-    public void execute(final UUID id, final Product product) {
-        final var order= repository.get(id);
-        order.addProduct(product);
-        repository.update(order);
+    public void execute(final UUID orderId, final UUID productId, Integer quantity) {
+        final var order= orderRepository.get(orderId);
+        final var product= productRepository.get(productId);
+        order.addProduct(product, quantity);
+        orderRepository.update(order);
     }
 
 }

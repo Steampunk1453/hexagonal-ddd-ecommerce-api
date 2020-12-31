@@ -1,4 +1,4 @@
-package com.ecommerce.api.order.domain.product;
+package com.ecommerce.api.order.domain.model;
 
 import java.util.UUID;
 
