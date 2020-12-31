@@ -29,12 +29,13 @@ class PayOrderTest extends Specification {
             UUID id = UUID.randomUUID()
             Money value = Money.of(new BigDecimal(2.5), "EUR")
             Product product = new Product(id, "product", value)
+            Integer productQuantity = 1
             CreditCard creditCard = new CreditCard()
         when:
             payOrder.execute(id, creditCard)
         then:
-            1 * orderRepository.get(_ as UUID) >> new Order(id, product)
-            1 * paymentRepository.pay(_ as MonetaryAmount, _ as CreditCard) >> isPaid
+            1 * orderRepository.get(_ as UUID) >> new Order(id, product, productQuantity)
+            1 * paymentRepository.pay(_ as BigDecimal, _ as CreditCard) >> isPaid
             times * orderRepository.save(_ as Order)
         where:
             isPaid || times

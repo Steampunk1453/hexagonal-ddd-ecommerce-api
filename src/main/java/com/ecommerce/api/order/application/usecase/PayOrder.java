@@ -10,7 +10,7 @@ public record PayOrder(OrderRepository orderRepository, PaymentRepository paymen
 
     public void execute(UUID uuid, CreditCard creditCard) {
         var order = orderRepository.get(uuid);
-        if(paymentRepository.pay(order.getProduct().value(), creditCard)) {
+        if(paymentRepository.pay(order.getTotalPrice(), creditCard)) {
             orderRepository.save(order);
         }
     }
