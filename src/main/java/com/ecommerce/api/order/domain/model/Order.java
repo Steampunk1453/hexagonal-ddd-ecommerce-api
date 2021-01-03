@@ -8,16 +8,16 @@ import java.util.UUID;
 
 public class Order {
 
-    private UUID id;
+    private final UUID id;
 
-    private List<OrderItem> orderItems;
+    private final List<OrderItem> orderItems;
 
     private BigDecimal totalPrice;
 
     public Order(final UUID id, final Product product, final Integer quantity) {
         this.id = id;
-        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity)));;
-        this.totalPrice =  product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity));
+        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity)));
+        this.totalPrice =  product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity)); // Call strategy pattern
     }
 
     public UUID getId() {
@@ -35,13 +35,13 @@ public class Order {
     public void addProduct(final Product product, Integer quantity) {
         validateProduct(product);
         orderItems.add(new OrderItem(product, quantity));
-        totalPrice = totalPrice.add(product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity)));
+        totalPrice = totalPrice.add(product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity))); // Call strategy pattern
     }
 
     public void removeProduct(final UUID productId) {
         final OrderItem orderItem = getOrderItem(productId);
         orderItems.remove(orderItem);
-        totalPrice = totalPrice.subtract(orderItem.product().value().getNumberStripped().multiply(BigDecimal.valueOf(orderItem.quantity())));
+        totalPrice = totalPrice.subtract(orderItem.product().value().getNumberStripped().multiply(BigDecimal.valueOf(orderItem.quantity()))); // Call strategy pattern
     }
 
     private OrderItem getOrderItem(final UUID productId) {
@@ -57,6 +57,5 @@ public class Order {
             throw new DomainException("The product cannot be null");
         }
     }
-
 
 }
