@@ -28,7 +28,7 @@ class PayOrderTest extends Specification {
         given:
             UUID id = UUID.randomUUID()
             Money value = Money.of(new BigDecimal(2.5), "EUR")
-            Product product = new Product(id, "product", value)
+            Product product = new Product(id, "PROD", "product", value)
             Integer productQuantity = 1
             CreditCard creditCard = new CreditCard()
         when:

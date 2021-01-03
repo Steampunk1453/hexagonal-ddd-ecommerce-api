@@ -27,7 +27,7 @@ class AddProductTest extends Specification {
             UUID productId = UUID.randomUUID()
             Integer productQuantity = 1
             Money value = Money.of(new BigDecimal(2.5), "EUR")
-            Product newProduct = new Product(productId, "newProduct", value)
+            Product newProduct = new Product(productId, "NPROD","newProduct", value)
         when:
             addProduct.execute(orderId, productId, productQuantity)
         then:

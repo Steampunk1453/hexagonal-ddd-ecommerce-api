@@ -24,7 +24,7 @@ class CreateOrderTest extends Specification {
             UUID productId = UUID.randomUUID()
             Integer productQuantity = 1
             Money value = Money.of(new BigDecimal(2.5), "EUR")
-            Product product = new Product(productId, "product", value)
+            Product product = new Product(productId, "PROD", "product", value)
         when:
             UUID result = createOrder.execute(productId, productQuantity)
         then:

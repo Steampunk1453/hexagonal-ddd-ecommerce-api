@@ -15,7 +15,7 @@ class OrderTest extends Specification {
             UUID id = UUID.randomUUID()
             Integer productQuantity = 4
             Money value = Money.of(new BigDecimal(2.50), "EUR")
-            Product product = new Product(id, "product", value)
+            Product product = new Product(id, "PROD", "product", value)
         when:
             Order result = new Order(id, product, productQuantity)
         then:
@@ -30,7 +30,7 @@ class OrderTest extends Specification {
             Order order = OrderProvider.buildOrder()
             Integer productQuantity = 2
             Money newValue = Money.of(new BigDecimal(2.50), "EUR")
-            Product newProduct = new Product(UUID.randomUUID(), "newProduct", newValue)
+            Product newProduct = new Product(UUID.randomUUID(), "NPROD", "newProduct", newValue)
         when:
             order.addProduct(newProduct, productQuantity)
             Order result = order
@@ -44,7 +44,7 @@ class OrderTest extends Specification {
     def 'should remove a product from an order'() {
         given:
             Order order = OrderProvider.buildOrder()
-            UUID productId = order.orderItems.get(0).product().id()
+            UUID productId = order.orderItems.get(0).product().code()
         when:
             order.removeProduct(productId)
             Order result = order

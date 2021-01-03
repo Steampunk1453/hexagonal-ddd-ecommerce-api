@@ -18,7 +18,7 @@ class DeleteProductTest extends Specification {
         given:
             Order order = Spy(OrderProvider.buildOrder())
             UUID orderId = order.id
-            UUID productId = order.orderItems.get(0).product().id()
+            UUID productId = order.orderItems.get(0).product().code()
         when:
             deleteProduct.execute(orderId, productId)
         then:
