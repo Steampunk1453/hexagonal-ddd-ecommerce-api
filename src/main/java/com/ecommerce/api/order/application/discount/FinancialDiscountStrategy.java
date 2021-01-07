@@ -5,10 +5,17 @@ import java.math.BigDecimal;
 import com.ecommerce.api.order.domain.model.Product;
 import com.ecommerce.api.order.domain.model.discount.DiscountStrategy;
 
-public class FinancialDiscountStrategy implements DiscountStrategy {
+public record FinancialDiscountStrategy(Integer minimumQuantity, BigDecimal discountedApplied) implements DiscountStrategy {
+
+    @Override
+    public boolean isApplicable(Integer quantity) {
+        return quantity > minimumQuantity;
+    }
 
     @Override
     public BigDecimal apply(Product product, Integer quantity) {
-        return null;
+        return product.value().getNumberStripped().subtract(discountedApplied)
+            .multiply(BigDecimal.valueOf(quantity));
     }
+
 }
