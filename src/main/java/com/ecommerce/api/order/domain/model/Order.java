@@ -14,10 +14,10 @@ public class Order {
 
     private BigDecimal totalPrice;
 
-    public Order(final UUID id, final Product product, final Integer quantity) {
+    public Order(final UUID id, final Product product, final Integer quantity, BigDecimal price) {
         this.id = id;
-        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity)));
-        this.totalPrice =  product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity)); // Call strategy pattern
+        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity, price)));
+        this.totalPrice = price;
     }
 
     public UUID getId() {
@@ -32,16 +32,16 @@ public class Order {
         return totalPrice;
     }
 
-    public void addProduct(final Product product, Integer quantity) {
+    public void addProduct(final Product product, Integer quantity, BigDecimal price) {
         validateProduct(product);
-        orderItems.add(new OrderItem(product, quantity));
-        totalPrice = totalPrice.add(product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity))); // Call strategy pattern
+        orderItems.add(new OrderItem(product, quantity, price));
+        totalPrice = totalPrice.add(price);
     }
 
     public void removeProduct(final UUID productId) {
         final OrderItem orderItem = getOrderItem(productId);
         orderItems.remove(orderItem);
-        totalPrice = totalPrice.subtract(orderItem.product().value().getNumberStripped().multiply(BigDecimal.valueOf(orderItem.quantity()))); // Call strategy pattern
+        totalPrice = totalPrice.subtract(orderItem.price());
     }
 
     private OrderItem getOrderItem(final UUID productId) {
@@ -49,7 +49,7 @@ public class Order {
             .filter(orderItem -> orderItem.product().id()
                 .equals(productId))
             .findFirst()
-            .orElseThrow(() -> new DomainException("Product with " + productId + " doesn't exist."));
+            .orElseThrow(() -> new DomainException("Product with " + productId + " doesn't exist"));
     }
 
     private void validateProduct(final Product product) {
