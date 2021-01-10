@@ -6,7 +6,7 @@ import com.ecommerce.api.order.domain.model.Product;
 
 public interface DiscountStrategy {
 
-    boolean isApplicable(Integer quantity);
+    boolean isEligible(Integer quantity);
     BigDecimal apply(Product product, Integer quantity);
 
 }
