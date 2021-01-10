@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.api.order.domain.model.PriceCalculatorService;
 import com.ecommerce.api.order.domain.model.Product;
 import com.ecommerce.api.order.domain.model.discount.Discount;
-import com.ecommerce.api.order.domain.model.discount.DiscountStrategy;
 import com.ecommerce.api.order.domain.port.DiscountRepository;
 
 @Service
@@ -15,13 +14,18 @@ public record DefaultPriceCalculatorService(DiscountRepository discountRepositor
 
     @Override
     public BigDecimal calculate(Product product, Integer quantity) {
-        Discount discount = discountRepository.get(product.code());
-        DiscountStrategy discountStrategy = discount.discountStrategy();
 
-        if (discount.isActive() && discountStrategy.isApplicable(quantity)) {
-            return discountStrategy.apply(product, quantity);
-        }
-        return calculateWithoutDiscount(product.value().getNumberStripped(), quantity);
+        var discounts = discountRepository.getAll();
+
+        return discounts.values().stream()
+            .filter(discount -> isApplicable(product, quantity, discount))
+            .map(discount -> discount.discountStrategy().apply(product, quantity))
+            .reduce(BigDecimal::min)
+            .orElseGet(() -> calculateWithoutDiscount(product.price(), quantity));
+    }
+
+    private boolean isApplicable(Product product, Integer quantity, Discount discount) {
+        return discount.isActive() && discount.discountStrategy().isEligible(quantity) && discount.productCode().equals(product.code());
     }
 
     private BigDecimal calculateWithoutDiscount(BigDecimal productPrice, Integer quantity) {
