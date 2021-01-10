@@ -13,9 +13,10 @@ public record CreateOrder(OrderRepository orderRepository,
                           PriceCalculatorService priceCalculatorService ) {
 
     public UUID execute(UUID productId, Integer quantity) {
+        final var orderId = UUID.randomUUID();
         final var product = productRepository.get(productId);
         BigDecimal price = priceCalculatorService.calculate(product, quantity);
-        final var order = new Order(UUID.randomUUID(), product, quantity, price);
+        final var order = new Order(orderId, product, quantity, price);
         orderRepository.save(order);
 
         return order.getId();

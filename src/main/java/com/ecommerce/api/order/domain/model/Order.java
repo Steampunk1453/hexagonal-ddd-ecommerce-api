@@ -14,10 +14,10 @@ public class Order {
 
     private BigDecimal totalPrice;
 
-    public Order(final UUID id, final Product product, final Integer quantity, BigDecimal price) {
+    public Order(final UUID id, final Product product, final Integer quantity, BigDecimal itemPrice) {
         this.id = id;
-        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity, price)));
-        this.totalPrice = price;
+        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity, itemPrice)));
+        this.totalPrice = itemPrice;
     }
 
     public UUID getId() {
@@ -32,10 +32,10 @@ public class Order {
         return totalPrice;
     }
 
-    public void addProduct(final Product product, Integer quantity, BigDecimal price) {
+    public void addProduct(final Product product, Integer quantity, BigDecimal itemPrice) {
         validateProduct(product);
-        orderItems.add(new OrderItem(product, quantity, price));
-        totalPrice = totalPrice.add(price);
+        orderItems.add(new OrderItem(product, quantity, itemPrice));
+        totalPrice = totalPrice.add(itemPrice);
     }
 
     public void removeProduct(final UUID productId) {
