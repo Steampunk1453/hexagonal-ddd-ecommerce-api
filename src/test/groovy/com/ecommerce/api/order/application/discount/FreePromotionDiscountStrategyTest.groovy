@@ -27,7 +27,7 @@ class FreePromotionDiscountStrategyTest extends Specification {
     }
 
     @Unroll
-    def "should apply a discount of free promotion with result #expect for product STICKER and quantity #quantity with price #price"() {
+    def "should apply a discount of free promotion with result #expect for product STICKER and quantity #quantity with price #price and divider #divider"() {
         given:
             marketingDiscountStrategy = new FreePromotionDiscountStrategy(2, divider)
             UUID productId = UUID.randomUUID()
