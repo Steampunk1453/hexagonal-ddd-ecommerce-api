@@ -14,8 +14,8 @@ public record AddProduct(OrderRepository orderRepository,
     public void execute(final UUID orderId, final UUID productId, Integer quantity) {
         final var order= orderRepository.get(orderId);
         final var product= productRepository.get(productId);
-        BigDecimal price = priceCalculatorService.calculate(product, quantity);
-        order.addProduct(product, quantity, price);
+        BigDecimal itemPrice = priceCalculatorService.calculate(product, quantity);
+        order.addProduct(product, quantity, itemPrice);
         orderRepository.update(order);
     }
 

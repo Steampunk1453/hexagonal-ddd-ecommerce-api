@@ -14,7 +14,6 @@ public record DefaultPriceCalculatorService(DiscountRepository discountRepositor
 
     @Override
     public BigDecimal calculate(Product product, Integer quantity) {
-
         var discounts = discountRepository.getAll();
 
         return discounts.values().stream()
