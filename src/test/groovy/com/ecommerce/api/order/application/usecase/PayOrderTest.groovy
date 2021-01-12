@@ -27,14 +27,15 @@ class PayOrderTest extends Specification {
     def 'should pay an order with credit card with paid: #isPaid'() {
         given:
             UUID id = UUID.randomUUID()
-            Money value = Money.of(new BigDecimal(2.5), "EUR")
-            Product product = new Product(id, "product", value)
+            BigDecimal price = new BigDecimal(12.50)
+            Product product = new Product(id, "BOOK", "product", price)
             Integer productQuantity = 1
             CreditCard creditCard = new CreditCard()
+            BigDecimal itemPrice = new BigDecimal(12.50)
         when:
             payOrder.execute(id, creditCard)
         then:
-            1 * orderRepository.get(_ as UUID) >> new Order(id, product, productQuantity)
+            1 * orderRepository.get(_ as UUID) >> new Order(id, product, productQuantity, itemPrice)
             1 * paymentRepository.pay(_ as BigDecimal, _ as CreditCard) >> isPaid
             times * orderRepository.save(_ as Order)
         where:

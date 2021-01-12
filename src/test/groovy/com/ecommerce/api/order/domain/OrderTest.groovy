@@ -1,7 +1,5 @@
 package com.ecommerce.api.order.domain
 
-import org.javamoney.moneta.Money
-
 import com.ecommerce.api.order.domain.model.DomainException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.model.Product
@@ -14,10 +12,11 @@ class OrderTest extends Specification {
         given:
             UUID id = UUID.randomUUID()
             Integer productQuantity = 4
-            Money value = Money.of(new BigDecimal(2.50), "EUR")
-            Product product = new Product(id, "product", value)
+            BigDecimal productPrice = new BigDecimal(2.50)
+            Product product = new Product(id, "STICKER", "product", productPrice)
+            BigDecimal itemPrice = new BigDecimal(10.00)
         when:
-            Order result = new Order(id, product, productQuantity)
+            Order result = new Order(id, product, productQuantity, itemPrice)
         then:
             result.id == id
             result.orderItems.size() == 1
@@ -28,17 +27,18 @@ class OrderTest extends Specification {
     def 'should add a product to an order'() {
         given:
             Order order = OrderProvider.buildOrder()
+            BigDecimal productPrice = new BigDecimal(12.50)
+            Product newProduct = new Product(UUID.randomUUID(), "BOOK", "newProduct", productPrice)
             Integer productQuantity = 2
-            Money newValue = Money.of(new BigDecimal(2.50), "EUR")
-            Product newProduct = new Product(UUID.randomUUID(), "newProduct", newValue)
+            BigDecimal itemPrice = new BigDecimal(25.00)
         when:
-            order.addProduct(newProduct, productQuantity)
+            order.addProduct(newProduct, productQuantity, itemPrice)
             Order result = order
         then:
             result.id == order.id
             result.orderItems[1].product() == newProduct
             result.orderItems.size() == 2
-            result.totalPrice == 7.50
+            result.totalPrice == 27.50
     }
 
     def 'should remove a product from an order'() {
@@ -57,8 +57,9 @@ class OrderTest extends Specification {
         given:
             Order order = OrderProvider.buildOrder()
             Integer productQuantity = 2
+            BigDecimal itemPrice = new BigDecimal(2.50)
         when:
-            order.addProduct(null, productQuantity)
+            order.addProduct(null, productQuantity, itemPrice)
         then:
             thrown(DomainException)
     }

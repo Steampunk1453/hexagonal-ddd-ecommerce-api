@@ -8,16 +8,16 @@ import java.util.UUID;
 
 public class Order {
 
-    private UUID id;
+    private final UUID id;
 
-    private List<OrderItem> orderItems;
+    private final List<OrderItem> orderItems;
 
     private BigDecimal totalPrice;
 
-    public Order(final UUID id, final Product product, final Integer quantity) {
+    public Order(final UUID id, final Product product, final Integer quantity, BigDecimal itemPrice) {
         this.id = id;
-        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity)));;
-        this.totalPrice =  product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity));
+        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity, itemPrice)));
+        this.totalPrice = itemPrice;
     }
 
     public UUID getId() {
@@ -32,16 +32,16 @@ public class Order {
         return totalPrice;
     }
 
-    public void addProduct(final Product product, Integer quantity) {
+    public void addProduct(final Product product, Integer quantity, BigDecimal itemPrice) {
         validateProduct(product);
-        orderItems.add(new OrderItem(product, quantity));
-        totalPrice = totalPrice.add(product.value().getNumberStripped().multiply(BigDecimal.valueOf(quantity)));
+        orderItems.add(new OrderItem(product, quantity, itemPrice));
+        totalPrice = totalPrice.add(itemPrice);
     }
 
     public void removeProduct(final UUID productId) {
         final OrderItem orderItem = getOrderItem(productId);
         orderItems.remove(orderItem);
-        totalPrice = totalPrice.subtract(orderItem.product().value().getNumberStripped().multiply(BigDecimal.valueOf(orderItem.quantity())));
+        totalPrice = totalPrice.subtract(orderItem.price());
     }
 
     private OrderItem getOrderItem(final UUID productId) {
@@ -49,7 +49,7 @@ public class Order {
             .filter(orderItem -> orderItem.product().id()
                 .equals(productId))
             .findFirst()
-            .orElseThrow(() -> new DomainException("Product with " + productId + " doesn't exist."));
+            .orElseThrow(() -> new DomainException("Product with " + productId + " doesn't exist"));
     }
 
     private void validateProduct(final Product product) {
@@ -57,6 +57,5 @@ public class Order {
             throw new DomainException("The product cannot be null");
         }
     }
-
 
 }
