@@ -17,21 +17,28 @@ class PriceCalculatorServiceTest extends Specification {
     @Subject
     PriceCalculatorService priceCalculatorService = new DefaultPriceCalculatorService(discountRepository)
 
-    def "calculate price for a product and a quantity"() {
+    def "should calculate price with result #expect for a #productCode with quantity #quantity, price #price and discount is active #isActive"() {
         given:
             Map<String, Discount> discounts = new HashMap<>()
-            discounts.put("MARKETING_DISCOUNT", new Discount(true, "STICKER", new FreePromotionDiscountStrategy(2, 2)))
-            discounts.put("CUSTOMER_DISCOUNT", new Discount(true, "TSHIRT", new FreePromotionDiscountStrategy(2, 1.5)))
-            discounts.put("FINANCIAL_DISCOUNT", new Discount(true, "BOOK", new BulkPurchasesDiscountStrategy(3, new BigDecimal(1))))
+            discounts.put("MARKETING_DISCOUNT", new Discount(isActive, "STICKER", new FreePromotionDiscountStrategy(2, 2)))
+            discounts.put("CUSTOMER_DISCOUNT", new Discount(isActive, "BOOK", new FreePromotionDiscountStrategy(2, 1.5)))
+            discounts.put("FINANCIAL_DISCOUNT", new Discount(isActive, "BOOK", new BulkPurchasesDiscountStrategy(3, new BigDecimal(1))))
+            discounts.put("AFFILIATE_DISCOUNT", new Discount(isActive, "TSHIRT", new BulkPurchasesDiscountStrategy(3, new BigDecimal(2))))
             UUID productId = UUID.randomUUID()
-            BigDecimal price = new BigDecimal(10)
-            Integer quantity = 3
-            Product product = new Product(productId, "STICKER", "product", price)
+            Product product = new Product(productId, productCode, "product", price)
             discountRepository.getAll() >> discounts
         when:
             BigDecimal result = priceCalculatorService.calculate(product, quantity)
         then:
-            result == 15
+            result == expect
+        where:
+            quantity | price | productCode | isActive || expect
+            1        | 2.50  | "STICKER"   | true     || 2.50
+            2        | 2.50  | "STICKER"   | true     || 2.50
+            3        | 12.50 | "BOOK"      | true     || 25.00
+            4        | 10.00 | "TSHIRT"    | true     || 32.00
+            5        | 2.50  | "STICKER"   | false    || 12.50
+            6        | 3.00  | "OTHER"     | true     || 18.00
     }
 
 }
