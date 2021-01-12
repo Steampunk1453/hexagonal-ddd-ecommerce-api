@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ecommerce.api.order.application.usecase.CreateCustomer;
 import com.ecommerce.api.order.application.usecase.CreateOrder;
-import com.ecommerce.api.order.domain.model.PriceCalculatorService;
+import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService;
 import com.ecommerce.api.order.domain.port.CustomerRepository;
 import com.ecommerce.api.order.domain.port.OrderRepository;
 import com.ecommerce.api.order.domain.port.ProductRepository;

@@ -1,10 +1,8 @@
-package com.ecommerce.api.order.application
+package com.ecommerce.api.order.application.discount
 
-import com.ecommerce.api.order.application.discount.BulkPurchasesDiscountStrategy
-import com.ecommerce.api.order.application.discount.FreePromotionDiscountStrategy
-import com.ecommerce.api.order.domain.model.PriceCalculatorService
 import com.ecommerce.api.order.domain.model.Product
 import com.ecommerce.api.order.domain.model.discount.Discount
+import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService
 import com.ecommerce.api.order.domain.port.DiscountRepository
 
 import spock.lang.Specification

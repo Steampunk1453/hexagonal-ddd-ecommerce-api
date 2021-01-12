@@ -1,10 +1,10 @@
-package com.ecommerce.api.order.application;
+package com.ecommerce.api.order.application.discount;
 
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.api.order.domain.model.PriceCalculatorService;
+import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService;
 import com.ecommerce.api.order.domain.model.Product;
 import com.ecommerce.api.order.domain.model.discount.Discount;
 import com.ecommerce.api.order.domain.port.DiscountRepository;

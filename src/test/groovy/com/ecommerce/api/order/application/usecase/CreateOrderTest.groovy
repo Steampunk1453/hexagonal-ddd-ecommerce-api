@@ -1,9 +1,7 @@
 package com.ecommerce.api.order.application.usecase
 
-import org.javamoney.moneta.Money
-
 import com.ecommerce.api.order.domain.model.Order
-import com.ecommerce.api.order.domain.model.PriceCalculatorService
+import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService
 import com.ecommerce.api.order.domain.model.Product
 import com.ecommerce.api.order.domain.port.OrderRepository
 import com.ecommerce.api.order.domain.port.ProductRepository
