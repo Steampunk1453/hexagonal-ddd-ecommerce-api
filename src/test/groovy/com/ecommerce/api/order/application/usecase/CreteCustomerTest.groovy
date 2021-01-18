@@ -1,7 +1,7 @@
 package com.ecommerce.api.order.application.usecase
 
-import com.ecommerce.api.order.domain.model.Address
-import com.ecommerce.api.order.domain.model.Customer
+import com.ecommerce.api.order.domain.model.customer.Address
+import com.ecommerce.api.order.domain.model.customer.Customer
 import com.ecommerce.api.order.domain.port.CustomerRepository
 
 import spock.lang.Specification
@@ -16,7 +16,7 @@ class CreteCustomerTest extends Specification {
 
     def 'should create a new customer and return id'() {
         given:
-            Address address = new Address(UUID.randomUUID(), "Rue Percebe", 13, 28008, "Madrid")
+            Address address = new Address("Rue Percebe", 13, 28008, "Madrid")
         when:
             UUID result = createCustomer.execute("name", "surname", address)
         then:

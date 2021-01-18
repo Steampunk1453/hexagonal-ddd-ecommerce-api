@@ -2,7 +2,7 @@ package com.ecommerce.api.order.application.usecase;
 
 import java.util.UUID;
 
-import com.ecommerce.api.order.domain.model.CreditCard;
+import com.ecommerce.api.order.domain.model.payment.CreditCard;
 import com.ecommerce.api.order.domain.port.PaymentRepository;
 import com.ecommerce.api.order.domain.port.OrderRepository;
 

@@ -6,7 +6,7 @@ import org.javamoney.moneta.Money
 
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.PaymentRepository
-import com.ecommerce.api.order.domain.model.CreditCard
+import com.ecommerce.api.order.domain.model.payment.CreditCard
 import com.ecommerce.api.order.domain.port.OrderRepository
 import com.ecommerce.api.order.domain.model.Product
 
@@ -30,7 +30,7 @@ class PayOrderTest extends Specification {
             BigDecimal price = new BigDecimal(12.50)
             Product product = new Product(id, "BOOK", "product", price)
             Integer productQuantity = 1
-            CreditCard creditCard = new CreditCard()
+            CreditCard creditCard = new CreditCard("VISA", "12345678A", new Date(), "123")
             BigDecimal itemPrice = new BigDecimal(12.50)
         when:
             payOrder.execute(id, creditCard)
