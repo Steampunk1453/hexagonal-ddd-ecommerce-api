@@ -22,7 +22,7 @@ public class CreateOrderController {
 
     @PostMapping("/orders")
     ResponseEntity<UUID> create(@RequestBody final CreateOrderRequest request) {
-        final UUID id = createOrder.execute(request.productId(), request.quantity());
+        final var id = createOrder.execute(request.productId(), request.quantity());
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 

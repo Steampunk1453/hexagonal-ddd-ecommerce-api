@@ -8,7 +8,7 @@ import com.ecommerce.api.order.domain.port.OrderRepository;
 public record GetTotalPrice(OrderRepository repository) {
 
     public BigDecimal execute(UUID id) {
-        var order = repository.get(id);
+        final var order = repository.get(id);
         return order.getTotalPrice();
     }
 

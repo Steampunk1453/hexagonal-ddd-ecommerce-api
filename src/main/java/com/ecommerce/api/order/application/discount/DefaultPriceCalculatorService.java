@@ -1,12 +1,13 @@
 package com.ecommerce.api.order.application.discount;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService;
 import com.ecommerce.api.order.domain.model.Product;
 import com.ecommerce.api.order.domain.model.discount.Discount;
+import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService;
 import com.ecommerce.api.order.domain.port.DiscountRepository;
 
 @Service
@@ -14,7 +15,7 @@ public record DefaultPriceCalculatorService(DiscountRepository discountRepositor
 
     @Override
     public BigDecimal calculate(Product product, Integer quantity) {
-        var discounts = discountRepository.getAll();
+        final Map<String, Discount> discounts = discountRepository.getAll();
 
         return discounts.values().stream()
             .filter(discount -> isApplicable(product, quantity, discount))

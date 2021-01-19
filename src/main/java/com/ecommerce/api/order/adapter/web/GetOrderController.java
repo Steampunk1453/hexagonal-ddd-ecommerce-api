@@ -20,7 +20,7 @@ public class GetOrderController {
 
     @GetMapping("/orders/{orderId}")
     public GetOrderResponse get(@PathVariable("orderId") final UUID orderId) {
-        var order = getOrder.execute(orderId);
+        final var order = getOrder.execute(orderId);
         return GetOrderResponse.toResponse(order);
     }
 
