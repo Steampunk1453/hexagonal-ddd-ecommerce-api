@@ -2,8 +2,8 @@ package com.ecommerce.api.order.application.usecase
 
 import com.ecommerce.api.order.domain.OrderProvider
 import com.ecommerce.api.order.domain.model.Order
-import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService
 import com.ecommerce.api.order.domain.model.Product
+import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService
 import com.ecommerce.api.order.domain.port.OrderRepository
 import com.ecommerce.api.order.domain.port.ProductRepository
 
@@ -24,7 +24,7 @@ class AddProductTest extends Specification {
     def 'should get an order and update it with a product'() {
         given:
             Order order = Spy(OrderProvider.buildOrder())
-            UUID orderId = order.id
+            UUID orderId = order.id().value()
             UUID productId = UUID.randomUUID()
             Integer productQuantity = 1
             BigDecimal productPrice = new BigDecimal(12.50)

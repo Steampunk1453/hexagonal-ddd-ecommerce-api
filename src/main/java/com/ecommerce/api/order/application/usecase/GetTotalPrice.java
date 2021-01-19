@@ -9,7 +9,7 @@ public record GetTotalPrice(OrderRepository repository) {
 
     public BigDecimal execute(UUID id) {
         final var order = repository.get(id);
-        return order.getTotalPrice();
+        return order.totalPrice();
     }
 
 }

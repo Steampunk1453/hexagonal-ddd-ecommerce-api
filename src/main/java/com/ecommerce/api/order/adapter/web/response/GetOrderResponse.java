@@ -11,9 +11,9 @@ public record GetOrderResponse(UUID id, List<OrderItem> orderItems, BigDecimal t
 
     public static GetOrderResponse toResponse(final Order order) {
         return new GetOrderResponse(
-            order.getId(),
-            order.getOrderItems(),
-            order.getTotalPrice());
+            order.id().value(),
+            order.orderItems(),
+            order.totalPrice());
     }
 
 }

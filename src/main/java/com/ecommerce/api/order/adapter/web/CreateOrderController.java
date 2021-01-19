@@ -22,8 +22,8 @@ public class CreateOrderController {
 
     @PostMapping("/orders")
     ResponseEntity<UUID> create(@RequestBody final CreateOrderRequest request) {
-        final var id = createOrder.execute(request.productId(), request.quantity());
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        final var orderId = createOrder.execute(request.productId(), request.quantity());
+        return new ResponseEntity<>(orderId.value(), HttpStatus.CREATED);
     }
 
 }
