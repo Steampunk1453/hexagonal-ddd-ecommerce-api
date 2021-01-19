@@ -1,14 +1,11 @@
 package com.ecommerce.api.order.application.usecase
 
-import javax.money.MonetaryAmount;
-
-import org.javamoney.moneta.Money
-
 import com.ecommerce.api.order.domain.model.Order
-import com.ecommerce.api.order.domain.port.PaymentRepository
+import com.ecommerce.api.order.domain.model.OrderId
+import com.ecommerce.api.order.domain.model.Product
 import com.ecommerce.api.order.domain.model.payment.CreditCard
 import com.ecommerce.api.order.domain.port.OrderRepository
-import com.ecommerce.api.order.domain.model.Product
+import com.ecommerce.api.order.domain.port.PaymentRepository
 
 import spock.lang.Specification
 import spock.lang.Subject
@@ -35,7 +32,7 @@ class PayOrderTest extends Specification {
         when:
             payOrder.execute(id, creditCard)
         then:
-            1 * orderRepository.get(_ as UUID) >> new Order(id, product, productQuantity, itemPrice)
+            1 * orderRepository.get(_ as UUID) >> new Order(OrderId.of(id), product, productQuantity, itemPrice)
             1 * paymentRepository.pay(_ as BigDecimal, _ as CreditCard) >> isPaid
             times * orderRepository.save(_ as Order)
         where:

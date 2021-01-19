@@ -8,27 +8,27 @@ import java.util.UUID;
 
 public class Order {
 
-    private final UUID id;
+    private final OrderId id;
 
     private final List<OrderItem> orderItems;
 
     private BigDecimal totalPrice;
 
-    public Order(final UUID id, final Product product, final Integer quantity, BigDecimal itemPrice) {
+    public Order(final OrderId id, final Product product, final Integer quantity, BigDecimal itemPrice) {
         this.id = id;
         this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity, itemPrice)));
         this.totalPrice = itemPrice;
     }
 
-    public UUID getId() {
+    public OrderId id() {
         return id;
     }
 
-    public List<OrderItem> getOrderItems() {
+    public List<OrderItem> orderItems() {
         return orderItems;
     }
 
-    public BigDecimal getTotalPrice() {
+    public BigDecimal totalPrice() {
         return totalPrice;
     }
 

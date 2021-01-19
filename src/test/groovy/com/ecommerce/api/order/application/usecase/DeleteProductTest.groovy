@@ -17,8 +17,8 @@ class DeleteProductTest extends Specification {
     def 'should delete a product by id'() {
         given:
             Order order = Spy(OrderProvider.buildOrder())
-            UUID orderId = order.id
-            UUID productId = order.orderItems.get(0).product().id()
+            UUID orderId = order.id().value()
+            UUID productId = order.orderItems().get(0).product().id()
         when:
             deleteProduct.execute(orderId, productId)
         then:

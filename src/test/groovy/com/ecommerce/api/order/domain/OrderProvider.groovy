@@ -1,6 +1,7 @@
 package com.ecommerce.api.order.domain
 
 import com.ecommerce.api.order.domain.model.Order
+import com.ecommerce.api.order.domain.model.OrderId
 import com.ecommerce.api.order.domain.model.Product
 
 class OrderProvider {
@@ -12,7 +13,7 @@ class OrderProvider {
         Product product = new Product(productId, "STICKER", "product", price)
         Integer productQuantity = 1
         BigDecimal itemPrice = new BigDecimal(2.50)
-        new Order(orderId, product, productQuantity, itemPrice)
+        new Order(OrderId.of(orderId), product, productQuantity, itemPrice)
     }
 
 }
