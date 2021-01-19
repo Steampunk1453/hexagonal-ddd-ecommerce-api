@@ -39,7 +39,7 @@ public class Order {
     }
 
     public void removeProduct(final UUID productId) {
-        final OrderItem orderItem = getOrderItem(productId);
+        final var orderItem = getOrderItem(productId);
         orderItems.remove(orderItem);
         totalPrice = totalPrice.subtract(orderItem.price());
     }

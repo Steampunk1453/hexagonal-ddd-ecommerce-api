@@ -20,7 +20,7 @@ public class GetCustomerController {
 
     @GetMapping("/customers/{customerId}")
     public GetCustomerResponse get(@PathVariable("customerId") final UUID customerId) {
-        var customer = getCustomer.execute(customerId);
+        final var customer = getCustomer.execute(customerId);
         return GetCustomerResponse.toResponse(customer);
     }
 
