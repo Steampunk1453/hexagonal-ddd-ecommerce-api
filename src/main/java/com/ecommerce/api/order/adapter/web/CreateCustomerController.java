@@ -23,7 +23,7 @@ public class CreateCustomerController {
 
     @PostMapping("/customers")
     ResponseEntity<UUID> create(@RequestBody final CreateCustomerRequest request) {
-        UUID customerId = createCustomer.execute(request.name(), request.surname(), Address.toDomain(request.address()));
+        final var customerId = createCustomer.execute(request.name(), request.surname(), Address.toDomain(request.address()));
         return new ResponseEntity<>(customerId, HttpStatus.CREATED);
     }
 

@@ -1,6 +1,5 @@
 package com.ecommerce.api.order.application.usecase;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.ecommerce.api.order.domain.model.Order;
@@ -15,8 +14,8 @@ public record CreateOrder(OrderRepository orderRepository,
     public UUID execute(UUID productId, Integer quantity) {
         final var orderId = UUID.randomUUID();
         final var product = productRepository.get(productId);
-        BigDecimal price = priceCalculatorService.calculate(product, quantity);
-        final var order = new Order(orderId, product, quantity, price);
+        final var itemPrice = priceCalculatorService.calculate(product, quantity);
+        final var order = new Order(orderId, product, quantity, itemPrice);
         orderRepository.save(order);
 
         return order.getId();
