@@ -1,6 +1,6 @@
 package com.ecommerce.api.order.domain
 
-import com.ecommerce.api.order.domain.model.DomainException
+import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.model.OrderId
 import com.ecommerce.api.order.domain.model.Product
@@ -54,15 +54,15 @@ class OrderTest extends Specification {
             result.totalPrice() == BigDecimal.ZERO
     }
 
-    def 'should throw domain exception when add a null product to an order'() {
+    def 'should throw business exception when add a null product to an order'() {
         given:
-            Order order = OrderProvider.buildOrder()
-            Integer productQuantity = 2
-            BigDecimal itemPrice = new BigDecimal(2.50)
+        Order order = OrderProvider.buildOrder()
+        Integer productQuantity = 2
+        BigDecimal itemPrice = new BigDecimal(2.50)
         when:
-            order.addProduct(null, productQuantity, itemPrice)
+        order.addProduct(null, productQuantity, itemPrice)
         then:
-            thrown(DomainException)
+        thrown(BusinessException)
     }
 
 }
