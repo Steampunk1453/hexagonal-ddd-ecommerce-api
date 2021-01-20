@@ -1,5 +1,6 @@
 package com.ecommerce.api.order.adapter.persistence;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -16,7 +17,8 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer get(UUID id) {
-        return null;
+    public Optional<Customer> findById(UUID id) {
+        return Optional.empty();
     }
+
 }
