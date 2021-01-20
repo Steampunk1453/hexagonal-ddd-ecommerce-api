@@ -6,8 +6,10 @@ import java.util.UUID;
 
 import com.ecommerce.api.order.domain.model.Order;
 import com.ecommerce.api.order.domain.model.OrderItem;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record GetOrderResponse(UUID id, List<OrderItem> orderItems, BigDecimal totalPrice) {
+public record GetOrderResponse(@JsonProperty("id") UUID id, @JsonProperty("orderItems") List<OrderItem> orderItems,
+                               @JsonProperty("totalPrice") BigDecimal totalPrice) {
 
     public static GetOrderResponse toResponse(final Order order) {
         return new GetOrderResponse(
