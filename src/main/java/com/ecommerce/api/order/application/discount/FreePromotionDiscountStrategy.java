@@ -15,7 +15,7 @@ public record FreePromotionDiscountStrategy(Integer minimumQuantity, BigDecimal 
 
     @Override
     public BigDecimal apply(Product product, Integer quantity) {
-        return BigDecimal.valueOf(quantity).divide(divider, 2, RoundingMode.CEILING).multiply(product.price());
+        return BigDecimal.valueOf(quantity).divide(divider, 2, RoundingMode.CEILING).multiply(product.price()).setScale(2, RoundingMode.CEILING);
     }
 
 }
