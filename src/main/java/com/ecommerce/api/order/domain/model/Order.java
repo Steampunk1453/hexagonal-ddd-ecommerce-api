@@ -49,12 +49,12 @@ public class Order {
             .filter(orderItem -> orderItem.product().id()
                 .equals(productId))
             .findFirst()
-            .orElseThrow(() -> new DomainException("Product with " + productId + " doesn't exist"));
+            .orElseThrow(() -> new BusinessException("Product with " + productId + " doesn't exist"));
     }
 
     private void validateProduct(final Product product) {
         if (product == null) {
-            throw new DomainException("The product cannot be null");
+            throw new BusinessException("The product cannot be null");
         }
     }
 

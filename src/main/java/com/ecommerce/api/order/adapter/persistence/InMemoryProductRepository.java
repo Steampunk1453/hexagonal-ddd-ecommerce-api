@@ -1,5 +1,8 @@
 package com.ecommerce.api.order.adapter.persistence;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -10,13 +13,15 @@ import com.ecommerce.api.order.domain.port.ProductRepository;
 @Component
 public class InMemoryProductRepository implements ProductRepository {
 
+    private final Map<UUID, Product> products = new HashMap<>();
+
     @Override
     public void save(Product product) {
-
+        products.put(product.id(), product);
     }
 
     @Override
-    public Product get(UUID id) {
-        return null;
+    public Optional<Product> findById(UUID id) {
+        return Optional.ofNullable(products.get(id));
     }
 }

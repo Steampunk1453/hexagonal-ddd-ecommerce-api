@@ -31,7 +31,7 @@ class CreateOrderTest extends Specification {
         when:
             OrderId result = createOrder.execute(productId, productQuantity)
         then:
-            1 * productRepository.get(_ as UUID) >> product
+            1 * productRepository.findById(_ as UUID) >> Optional.of(product)
             1 * priceCalculatorService.calculate(_ as Product, _ as Integer) >> itemPrice
             1 * orderRepository.save(_ as Order)
             result != null
