@@ -17,22 +17,22 @@ class GetOrderTest extends Specification {
 
     def 'should get an find by id'() {
         given:
-        Order order = OrderProvider.buildOrder()
-        UUID id = UUID.randomUUID()
+            Order order = OrderProvider.buildOrder()
+            UUID id = UUID.randomUUID()
         when:
-        getOrder.execute(id)
+            getOrder.execute(id)
         then:
-        1 * repository.findById(_ as UUID) >> Optional.of(order)
+            1 * repository.findById(_ as UUID) >> Optional.of(order)
     }
 
     def 'should throw business exception when find an order by id and OrderRepository returns null'() {
         given:
-        UUID id = UUID.randomUUID()
+            UUID id = UUID.randomUUID()
         when:
-        getOrder.execute(id)
+            getOrder.execute(id)
         then:
-        1 * repository.findById(_ as UUID) >> Optional.ofNullable(null)
-        thrown(BusinessException)
+            1 * repository.findById(_ as UUID) >> Optional.ofNullable(null)
+            thrown(BusinessException)
     }
 
 }

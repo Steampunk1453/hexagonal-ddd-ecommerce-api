@@ -17,22 +17,22 @@ class GetTotalPriceTest extends Specification {
 
     def 'should get total price of a order'() {
         given:
-        Order order = Spy(OrderProvider.buildOrder())
-        UUID id = UUID.randomUUID()
+            Order order = Spy(OrderProvider.buildOrder())
+            UUID id = UUID.randomUUID()
         when:
-        getTotalPrice.execute(id)
+            getTotalPrice.execute(id)
         then:
-        1 * repository.findById(_ as UUID) >> Optional.of(order)
+            1 * repository.findById(_ as UUID) >> Optional.of(order)
     }
 
     def 'should throw business exception when get total price and OrderRepository returns null'() {
         given:
-        UUID id = UUID.randomUUID()
+            UUID id = UUID.randomUUID()
         when:
-        getTotalPrice.execute(id)
+            getTotalPrice.execute(id)
         then:
-        1 * repository.findById(_ as UUID) >> Optional.ofNullable(null)
-        thrown(BusinessException)
+            1 * repository.findById(_ as UUID) >> Optional.ofNullable(null)
+            thrown(BusinessException)
     }
 
 }
