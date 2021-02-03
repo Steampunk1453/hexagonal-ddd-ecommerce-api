@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.ecommerce.api.order.domain.model.customer.Customer;
 import com.ecommerce.api.order.domain.port.CustomerRepository;
 
-@Component
+@Repository
 public class InMemoryCustomerRepository implements CustomerRepository {
 
     private final Map<UUID, Customer> customers = new HashMap<>();

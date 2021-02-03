@@ -2,12 +2,12 @@ package com.ecommerce.api.order.adapter.persistence;
 
 import java.math.BigDecimal;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.ecommerce.api.order.domain.model.payment.CreditCard;
 import com.ecommerce.api.order.domain.port.PaymentRepository;
 
-@Component
+@Repository
 public class InMemoryPaymentRepository implements PaymentRepository {
 
     @Override

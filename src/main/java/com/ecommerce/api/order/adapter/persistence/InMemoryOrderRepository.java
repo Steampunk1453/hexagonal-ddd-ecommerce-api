@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.ecommerce.api.order.domain.model.Order;
 import com.ecommerce.api.order.domain.port.OrderRepository;
 
-@Component
+@Repository
 public class InMemoryOrderRepository implements OrderRepository {
 
     private final Map<UUID, Order> orders = new HashMap<>();
