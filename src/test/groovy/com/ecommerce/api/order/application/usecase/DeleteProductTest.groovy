@@ -1,6 +1,6 @@
 package com.ecommerce.api.order.application.usecase
 
-import com.ecommerce.api.order.domain.OrderProvider
+import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
@@ -17,7 +17,7 @@ class DeleteProductTest extends Specification {
 
     def 'should delete a product by id'() {
         given:
-            Order order = Spy(OrderProvider.buildOrder())
+            Order order = Spy(OrderFixture.anyOrder())
             UUID orderId = order.id().value()
             UUID productId = order.orderItems().get(0).product().id()
         when:
@@ -30,7 +30,7 @@ class DeleteProductTest extends Specification {
 
     def 'should throw business exception when delete a product by id and OrderRepository returns null'() {
         given:
-            Order order = OrderProvider.buildOrder()
+            Order order = OrderFixture.anyOrder()
             UUID orderId = order.id().value()
             UUID productId = order.orderItems().get(0).product().id()
         when:

@@ -1,12 +1,13 @@
 package com.ecommerce.api.order.domain
 
+
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.model.OrderId
 import com.ecommerce.api.order.domain.model.Product
 
-class OrderProvider {
+class OrderFixture {
 
-    static Order buildOrder() {
+    static Order anyOrder() {
         UUID orderId = UUID.randomUUID()
         UUID productId = UUID.randomUUID()
         BigDecimal price = new BigDecimal(2.50)

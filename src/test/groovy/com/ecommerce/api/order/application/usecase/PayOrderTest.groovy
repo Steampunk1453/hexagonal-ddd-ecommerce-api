@@ -1,6 +1,6 @@
 package com.ecommerce.api.order.application.usecase
 
-import com.ecommerce.api.order.domain.OrderProvider
+import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.model.payment.CreditCard
@@ -23,7 +23,7 @@ class PayOrderTest extends Specification {
     @Unroll
     def 'should pay an order with credit card with paid: #isPaid'() {
         given:
-            Order order = Spy(OrderProvider.buildOrder())
+            Order order = Spy(OrderFixture.anyOrder())
             UUID orderId = UUID.randomUUID()
             CreditCard creditCard = new CreditCard("VISA", "12345678A", new Date(), "123")
         when:

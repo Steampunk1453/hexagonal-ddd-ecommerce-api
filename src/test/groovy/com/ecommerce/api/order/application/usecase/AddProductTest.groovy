@@ -1,6 +1,6 @@
 package com.ecommerce.api.order.application.usecase
 
-import com.ecommerce.api.order.domain.OrderProvider
+import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.model.Product
@@ -24,7 +24,7 @@ class AddProductTest extends Specification {
 
     def 'should get an order and update it with a product'() {
         given:
-            Order order = Spy(OrderProvider.buildOrder())
+            Order order = Spy(OrderFixture.anyOrder())
             UUID orderId = order.id().value()
             UUID productId = UUID.randomUUID()
             Integer productQuantity = 1
@@ -43,7 +43,7 @@ class AddProductTest extends Specification {
 
     def 'should throw business exception when do not find a order to update it with a product'() {
         given:
-            Order order = OrderProvider.buildOrder()
+            Order order = OrderFixture.anyOrder()
             UUID orderId = order.id().value()
             UUID productId = UUID.randomUUID()
             Integer productQuantity = 1
@@ -57,7 +57,7 @@ class AddProductTest extends Specification {
 
     def 'should throw business exception when do not find a product'() {
         given:
-            Order order = OrderProvider.buildOrder()
+            Order order = OrderFixture.anyOrder()
             UUID orderId = order.id().value()
             UUID productId = UUID.randomUUID()
             Integer productQuantity = 1

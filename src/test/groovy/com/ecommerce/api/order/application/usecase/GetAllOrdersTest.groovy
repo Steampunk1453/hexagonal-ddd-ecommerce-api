@@ -1,6 +1,6 @@
 package com.ecommerce.api.order.application.usecase
 
-import com.ecommerce.api.order.domain.OrderProvider
+import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
 
@@ -16,7 +16,7 @@ class GetAllOrdersTest extends Specification {
 
     def 'should get all orders'() {
         given:
-            Order order = OrderProvider.buildOrder()
+            Order order = OrderFixture.anyOrder()
             List<Order> orders = new ArrayList<>()
             orders.add(order)
         when:

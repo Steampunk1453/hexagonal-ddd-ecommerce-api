@@ -1,6 +1,6 @@
 package com.ecommerce.api.order.application.usecase
 
-import com.ecommerce.api.order.domain.OrderProvider
+import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
@@ -17,7 +17,7 @@ class GetTotalPriceTest extends Specification {
 
     def 'should get total price of a order'() {
         given:
-            Order order = Spy(OrderProvider.buildOrder())
+            Order order = Spy(OrderFixture.anyOrder())
             UUID id = UUID.randomUUID()
         when:
             getTotalPrice.execute(id)
