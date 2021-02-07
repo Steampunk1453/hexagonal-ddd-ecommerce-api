@@ -22,16 +22,6 @@ public class InitializerConfig {
     private static final Logger LOG = LoggerFactory.getLogger(InitializerConfig.class);
 
     @Bean
-    public ApplicationRunner discountInitializer(DiscountRepository repository) {
-        var marketingDiscount = new Discount(true, "STICKER", new FreePromotionDiscountStrategy(2, new BigDecimal(2)));
-        var financialDiscount = new Discount(true, "BOOK", new BulkPurchasesDiscountStrategy(3, new BigDecimal(1)));
-        return args -> {
-            repository.save("MARKETING_DISCOUNT", marketingDiscount);
-            repository.save("FINANCIAL_DISCOUNT", financialDiscount);
-        };
-    }
-
-    @Bean
     public ApplicationRunner productInitializer(ProductRepository repository) {
         var sticker = new Product(UUID.randomUUID(), "STICKER", "Sticker with technology logo", new BigDecimal("2.50"));
         LOG.info("Sticker Id: {}", sticker.id());
@@ -43,6 +33,16 @@ public class InitializerConfig {
             repository.save(sticker);
             repository.save(tshirt);
             repository.save(book);
+        };
+    }
+
+    @Bean
+    public ApplicationRunner discountInitializer(DiscountRepository repository) {
+        var marketingDiscount = new Discount(true, "STICKER", new FreePromotionDiscountStrategy(2, new BigDecimal(2)));
+        var financialDiscount = new Discount(true, "BOOK", new BulkPurchasesDiscountStrategy(3, new BigDecimal(1)));
+        return args -> {
+            repository.save("MARKETING_DISCOUNT", marketingDiscount);
+            repository.save("FINANCIAL_DISCOUNT", financialDiscount);
         };
     }
 
