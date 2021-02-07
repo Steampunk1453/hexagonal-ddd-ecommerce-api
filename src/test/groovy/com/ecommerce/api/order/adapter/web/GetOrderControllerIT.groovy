@@ -1,6 +1,5 @@
 package com.ecommerce.api.order.adapter.web
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -15,17 +14,16 @@ import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jayway.jsonpath.JsonPath
 
 import spock.lang.Narrative
 import spock.lang.Specification
 import spock.lang.Title
 
-@Title("GetOrdersController Specification")
-@Narrative("The Specification of the behaviour of the GetOrdersController. It can get all orders previously created")
+@Title("GetOrderController Specification")
+@Narrative("The Specification of the behaviour of the GetOrderController. It can get an order previously created")
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetOrdersControllerIT extends Specification {
+class GetOrderControllerIT extends Specification {
 
     @Autowired
     private MockMvc mvc
@@ -34,36 +32,36 @@ class GetOrdersControllerIT extends Specification {
     ObjectMapper objectMapper
 
     @Autowired
-    private OrderRepository orderRepository
+    private OrderRepository repository
 
-    def "when get is performed then the response has status 200 with orders"() {
+    def "when get is performed then the response has status 200 with order"() {
         given:
         createOrder()
         Order order = getOrder()
+        UUID orderId = order.id().value()
         when:
-        ResultActions result = mvc.perform(get("/orders")
+        ResultActions result = mvc.perform(get("/orders/$orderId")
                 .contentType(MediaType.APPLICATION_JSON))
         then:
         result.andExpect(status().isOk())
         and:
-        with(JsonPath.read(result.andReturn().response.getContentAsString(), '[0]')) {
+        with(objectMapper.readValue(result.andReturn().response.contentAsString, Map)) {
             it.id == order.id().value().toString()
             it.orderItems[0]["product"]["code"] == order.orderItems().get(0).product().code()
             it.orderItems[0]["product"]["description"] == order.orderItems().get(0).product().description()
-            it.orderItems[0]["product"]["price"] == order.orderItems().get(0).product().price()
-            it.orderItems[0]["price"] == order.orderItems().get(0).price()
-            it.orderItems[0]["quantity"] == order.orderItems().get(0).quantity()
-            it.totalPrice == order.totalPrice()
+                it.orderItems[0]["product"]["price"] == order.orderItems().get(0).product().price()
+                it.orderItems[0]["price"] == order.orderItems().get(0).price()
+                it.orderItems[0]["quantity"] == order.orderItems().get(0).quantity()
+                it.totalPrice == order.totalPrice()
         }
-
     }
 
     private void createOrder() {
-        orderRepository.save(OrderFixture.anyOrder())
+        repository.save(OrderFixture.anyOrder())
     }
 
     private Order getOrder() {
-        orderRepository.findAll().get(0)
+        repository.findAll().get(0)
     }
 
 }
