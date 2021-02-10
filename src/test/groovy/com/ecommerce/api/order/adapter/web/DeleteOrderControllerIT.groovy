@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -33,16 +34,17 @@ class DeleteOrderControllerIT extends Specification {
     @Autowired
     private OrderRepository repository
 
+    @DirtiesContext
     def "when delete is performed then the response has status 200"() {
         given:
-        createOrder()
-        Order order = getOrder()
-        UUID orderId = order.id().value()
+            createOrder()
+            Order order = getOrder()
+            UUID orderId = order.id().value()
         when:
-        ResultActions result = mvc.perform(delete("/orders/$orderId")
-                .contentType(MediaType.APPLICATION_JSON))
+            ResultActions result = mvc.perform(delete("/orders/$orderId")
+                    .contentType(MediaType.APPLICATION_JSON))
         then:
-        result.andExpect(status().isOk())
+            result.andExpect(status().isOk())
     }
 
     private void createOrder() {

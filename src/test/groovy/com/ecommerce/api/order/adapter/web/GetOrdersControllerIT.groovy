@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -36,25 +37,26 @@ class GetOrdersControllerIT extends Specification {
     @Autowired
     private OrderRepository orderRepository
 
+    @DirtiesContext
     def "when get is performed then the response has status 200 with orders"() {
         given:
-        createOrder()
-        Order order = getOrder()
+            createOrder()
+            Order order = getOrder()
         when:
-        ResultActions result = mvc.perform(get("/orders")
-                .contentType(MediaType.APPLICATION_JSON))
+            ResultActions result = mvc.perform(get("/orders")
+                    .contentType(MediaType.APPLICATION_JSON))
         then:
-        result.andExpect(status().isOk())
+            result.andExpect(status().isOk())
         and:
-        with(JsonPath.read(result.andReturn().response.getContentAsString(), '[0]')) {
-            it.id == order.id().value().toString()
-            it.orderItems[0]["product"]["code"] == order.orderItems().get(0).product().code()
-            it.orderItems[0]["product"]["description"] == order.orderItems().get(0).product().description()
-            it.orderItems[0]["product"]["price"] == order.orderItems().get(0).product().price()
-            it.orderItems[0]["price"] == order.orderItems().get(0).price()
-            it.orderItems[0]["quantity"] == order.orderItems().get(0).quantity()
-            it.totalPrice == order.totalPrice()
-        }
+            with(JsonPath.read(result.andReturn().response.getContentAsString(), '[0]')) {
+                it.id == order.id().value().toString()
+                it.orderItems[0]["product"]["code"] == order.orderItems().get(0).product().code()
+                it.orderItems[0]["product"]["description"] == order.orderItems().get(0).product().description()
+                it.orderItems[0]["product"]["price"] == order.orderItems().get(0).product().price()
+                it.orderItems[0]["price"] == order.orderItems().get(0).price()
+                it.orderItems[0]["quantity"] == order.orderItems().get(0).quantity()
+                it.totalPrice == order.totalPrice()
+            }
 
     }
 

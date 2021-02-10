@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -38,17 +39,18 @@ class DeleteProductControllerIT extends Specification {
     @Autowired
     private ProductRepository productRepository
 
+    @DirtiesContext
     def "when delete is performed then the response has status 200 with order"() {
         given:
-        createOrder()
-        Order order = getOrder()
-        UUID orderId = order.id().value()
-        UUID productId = order.orderItems().get(0).product().id()
+            createOrder()
+            Order order = getOrder()
+            UUID orderId = order.id().value()
+            UUID productId = order.orderItems().get(0).product().id()
         when:
-        ResultActions result = mvc.perform(delete("/products/$orderId/$productId")
-                .contentType(MediaType.APPLICATION_JSON))
+            ResultActions result = mvc.perform(delete("/products/$orderId/$productId")
+                    .contentType(MediaType.APPLICATION_JSON))
         then:
-        result.andExpect(status().isOk())
+            result.andExpect(status().isOk())
     }
 
     private void createOrder() {

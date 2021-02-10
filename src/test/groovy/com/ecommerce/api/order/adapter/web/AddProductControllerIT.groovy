@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -34,25 +35,25 @@ class AddProductControllerIT extends Specification {
     @Autowired
     private ProductRepository productRepository
 
+    @DirtiesContext
     def "when post is performed then the response has status 200"() {
         given:
-        createOrder()
-        UUID orderId = getOrderId()
-        UUID productId = getProductId()
-        Map request = [
-                orderId  : orderId,
-                productId: productId,
-                quantity : 1
-        ]
+            createOrder()
+            UUID orderId = getOrderId()
+            UUID productId = getProductId()
+            Map request = [
+                    orderId  : orderId,
+                    productId: productId,
+                    quantity : 1
+            ]
         when:
-        ResultActions result = mvc.perform(post("/products")
+            ResultActions result = mvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(request)))
         then:
-        result.andExpect(status().isOk())
+            result.andExpect(status().isOk())
         and:
-        result.andReturn().response.contentAsString != null
-
+            result.andReturn().response.contentAsString != null
     }
 
     private void createOrder() {

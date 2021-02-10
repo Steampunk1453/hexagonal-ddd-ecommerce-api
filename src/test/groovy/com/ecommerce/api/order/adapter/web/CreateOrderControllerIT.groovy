@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -29,6 +30,7 @@ class CreateOrderControllerIT extends Specification {
     @Autowired
     private ProductRepository productRepository
 
+    @DirtiesContext
     def "when post is performed then the response has status 201 and is not null"() {
         given:
             UUID productId = getProductId()
@@ -37,13 +39,13 @@ class CreateOrderControllerIT extends Specification {
                     quantity : 1
             ]
         when:
-        ResultActions result = mvc.perform(post("/orders")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(request)))
+            ResultActions result = mvc.perform(post("/orders")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(toJson(request)))
         then:
-        result.andExpect(status().isCreated())
+            result.andExpect(status().isCreated())
         and:
-        result.andReturn().response.contentAsString != null
+            result.andReturn().response.contentAsString != null
     }
 
     private UUID getProductId() {

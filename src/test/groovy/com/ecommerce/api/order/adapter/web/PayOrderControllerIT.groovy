@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -32,21 +33,22 @@ class PayOrderControllerIT extends Specification {
     @Autowired
     private OrderRepository repository
 
+    @DirtiesContext
     def "when post is performed then the response has status 201 and is not null"() {
         given:
-        createOrder()
-        Order order = getOrder()
-        UUID orderId = order.id().value()
-        PayOrderRequest payOrderRequest = new PayOrderRequest("VISA", "12345678A", new Date(), "123")
-        Map request = [
-                payOrderRequest: payOrderRequest,
-        ]
+            createOrder()
+            Order order = getOrder()
+            UUID orderId = order.id().value()
+            PayOrderRequest payOrderRequest = new PayOrderRequest("VISA", "12345678A", new Date(), "123")
+            Map request = [
+                    payOrderRequest: payOrderRequest,
+            ]
         when:
-        ResultActions result = mvc.perform(post("/payments/$orderId")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(request)))
+            ResultActions result = mvc.perform(post("/payments/$orderId")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(toJson(request)))
         then:
-        result.andExpect(status().isCreated())
+            result.andExpect(status().isCreated())
     }
 
     private void createOrder() {
@@ -56,6 +58,5 @@ class PayOrderControllerIT extends Specification {
     private Order getOrder() {
         repository.findAll().get(0)
     }
-
 
 }

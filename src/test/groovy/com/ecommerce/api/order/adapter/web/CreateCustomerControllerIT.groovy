@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -26,20 +27,21 @@ class CreateCustomerControllerIT extends Specification {
     @Autowired
     private MockMvc mvc
 
+    @DirtiesContext
     def "when post is performed then the response has status 201 and is not null"() {
         given:
-        AddressRequest address = new AddressRequest("Rue Percebe", 13, 28008, "Madrid")
-        Map request = [
-                name   : "name",
-                surname: "surname",
-                address: address
-        ]
+            AddressRequest address = new AddressRequest("Rue Percebe", 13, 28008, "Madrid")
+            Map request = [
+                    name   : "name",
+                    surname: "surname",
+                    address: address
+            ]
         when:
-        ResultActions result = mvc.perform(post("/customers")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(request)))
+            ResultActions result = mvc.perform(post("/customers")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(toJson(request)))
         then:
-        result.andExpect(status().isCreated())
+            result.andExpect(status().isCreated())
     }
 
 }

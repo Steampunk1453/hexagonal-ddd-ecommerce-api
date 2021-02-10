@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 
@@ -35,26 +36,27 @@ class GetCustomerControllerIT extends Specification {
     @Autowired
     private CustomerRepository repository
 
+    @DirtiesContext
     def "when get is performed then the response has status 200 with customer"() {
         given:
-        createCustomer()
-        Customer customer = getCustomer()
-        UUID customerId = customer.id()
+            createCustomer()
+            Customer customer = getCustomer()
+            UUID customerId = customer.id()
         when:
-        ResultActions result = mvc.perform(get("/customers/$customerId")
-                .contentType(MediaType.APPLICATION_JSON))
+            ResultActions result = mvc.perform(get("/customers/$customerId")
+                    .contentType(MediaType.APPLICATION_JSON))
         then:
-        result.andExpect(status().isOk())
+            result.andExpect(status().isOk())
         and:
-        with(objectMapper.readValue(result.andReturn().response.contentAsString, Map)) {
-            it.id == customer.id().toString()
-            it.name == customer.name()
-            it.surname == customer.surname()
-            it.address["street"] == customer.address().street()
-            it.address["number"] == customer.address().number()
-            it.address["cp"] == customer.address().cp()
-            it.address["town"] == customer.address().town()
-        }
+            with(objectMapper.readValue(result.andReturn().response.contentAsString, Map)) {
+                it.id == customer.id().toString()
+                it.name == customer.name()
+                it.surname == customer.surname()
+                it.address["street"] == customer.address().street()
+                it.address["number"] == customer.address().number()
+                it.address["cp"] == customer.address().cp()
+                it.address["town"] == customer.address().town()
+            }
     }
 
     private void createCustomer() {
@@ -64,6 +66,5 @@ class GetCustomerControllerIT extends Specification {
     private Customer getCustomer() {
         repository.findAll().get(0)
     }
-
 
 }
