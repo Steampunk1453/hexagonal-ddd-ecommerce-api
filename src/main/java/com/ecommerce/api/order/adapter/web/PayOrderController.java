@@ -23,7 +23,7 @@ public class PayOrderController {
     }
 
     @PostMapping("payments/{orderId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     void pay(@PathVariable("orderId") final UUID orderId, @RequestBody final PayOrderRequest request) {
         payOrder.execute(orderId, CreditCard.toDomain(request));
     }
