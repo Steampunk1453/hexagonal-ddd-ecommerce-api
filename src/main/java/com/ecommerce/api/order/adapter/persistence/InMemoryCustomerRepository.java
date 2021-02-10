@@ -1,6 +1,8 @@
 package com.ecommerce.api.order.adapter.persistence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +25,11 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID id) {
         return Optional.ofNullable(customers.get(id));
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return new ArrayList<>(customers.values());
     }
 
 }
