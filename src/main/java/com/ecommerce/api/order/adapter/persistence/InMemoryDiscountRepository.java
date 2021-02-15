@@ -3,12 +3,12 @@ package com.ecommerce.api.order.adapter.persistence;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.ecommerce.api.order.domain.model.discount.Discount;
 import com.ecommerce.api.order.domain.port.DiscountRepository;
 
-@Component
+@Repository
 public class InMemoryDiscountRepository implements DiscountRepository {
 
     private final Map<String, Discount> discounts = new HashMap<>();

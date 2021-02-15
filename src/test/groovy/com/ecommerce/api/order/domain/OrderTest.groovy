@@ -27,7 +27,7 @@ class OrderTest extends Specification {
 
     def 'should add a product to an order'() {
         given:
-            Order order = OrderProvider.buildOrder()
+            Order order = OrderFixture.anyOrder()
             BigDecimal productPrice = new BigDecimal(12.50)
             Product newProduct = new Product(UUID.randomUUID(), "BOOK", "newProduct", productPrice)
             Integer productQuantity = 2
@@ -44,7 +44,7 @@ class OrderTest extends Specification {
 
     def 'should remove a product from an order'() {
         given:
-            Order order = OrderProvider.buildOrder()
+            Order order = OrderFixture.anyOrder()
             UUID productId = order.orderItems().get(0).product().id()
         when:
             order.removeProduct(productId)
@@ -56,13 +56,13 @@ class OrderTest extends Specification {
 
     def 'should throw business exception when add a null product to an order'() {
         given:
-        Order order = OrderProvider.buildOrder()
-        Integer productQuantity = 2
-        BigDecimal itemPrice = new BigDecimal(2.50)
+            Order order = OrderFixture.anyOrder()
+            Integer productQuantity = 2
+            BigDecimal itemPrice = new BigDecimal(2.50)
         when:
-        order.addProduct(null, productQuantity, itemPrice)
+            order.addProduct(null, productQuantity, itemPrice)
         then:
-        thrown(BusinessException)
+            thrown(BusinessException)
     }
 
 }
