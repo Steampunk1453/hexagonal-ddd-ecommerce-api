@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.ResultActions
 import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
-import com.fasterxml.jackson.databind.ObjectMapper
 
 import spock.lang.Narrative
 import spock.lang.Specification
@@ -25,11 +24,9 @@ import spock.lang.Title
 @SpringBootTest
 @AutoConfigureMockMvc
 class DeleteOrderControllerIT extends Specification {
-    @Autowired
-    private MockMvc mvc
 
     @Autowired
-    ObjectMapper objectMapper
+    private MockMvc mvc
 
     @Autowired
     private OrderRepository repository

@@ -75,7 +75,6 @@ class OrderTest extends Specification {
 
     def 'should remove a customer from an order'() {
         given:
-            Customer customer = CustomerFixture.anyCustomer()
             Order order = OrderFixture.anyOrder()
         when:
             order.removeCustomer()
