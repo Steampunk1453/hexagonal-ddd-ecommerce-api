@@ -17,12 +17,12 @@ class GetCustomerTest extends Specification {
 
     def 'should get a customer by id'() {
         given:
-        Customer customer = CustomerFixture.anyCustomer()
-        UUID customerId = customer.id()
+            Customer customer = CustomerFixture.anyCustomer()
+            UUID customerId = customer.id()
         when:
-        getCustomer.execute(customerId)
+            getCustomer.execute(customerId)
         then:
-        1 * repository.findById(_ as UUID) >> Optional.of(customer)
+         1 * repository.findById(_ as UUID) >> Optional.of(customer)
     }
 
     def 'should throw business exception when get a customer by id'() {

@@ -13,13 +13,12 @@ public record CreateOrder(OrderRepository orderRepository,
                           ProductRepository productRepository,
                           PriceCalculatorService priceCalculatorService ) {
 
-    public OrderId execute(UUID productId, Integer quantity) {
+    public OrderId execute(final UUID productId, final Integer quantity) {
         final var orderId = OrderId.of(UUID.randomUUID());
         final var product = productRepository.findById(productId).orElseThrow(() -> new BusinessException("Product not found"));
         final var itemPrice = priceCalculatorService.calculate(product, quantity);
         final var order = new Order(orderId, product, quantity, itemPrice);
         orderRepository.save(order);
-
         return order.id();
     }
 

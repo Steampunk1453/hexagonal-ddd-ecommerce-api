@@ -32,4 +32,9 @@ public class InMemoryCustomerRepository implements CustomerRepository {
         return new ArrayList<>(customers.values());
     }
 
+    @Override
+    public void delete(UUID id) {
+        customers.remove(id);
+    }
+
 }

@@ -14,15 +14,13 @@ import org.springframework.test.web.servlet.ResultActions
 import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
-import com.ecommerce.api.order.domain.port.ProductRepository
-import com.fasterxml.jackson.databind.ObjectMapper
 
 import spock.lang.Narrative
 import spock.lang.Specification
 import spock.lang.Title
 
 @Title("DeleteProductController Specification")
-@Narrative("The Specification of the behaviour of the DeleteProductController. It can delete a proudct from an order previously created")
+@Narrative("The Specification of the behaviour of the DeleteProductController. It can delete a product from an order previously created")
 @SpringBootTest
 @AutoConfigureMockMvc
 class DeleteProductControllerIT extends Specification {
@@ -31,16 +29,10 @@ class DeleteProductControllerIT extends Specification {
     private MockMvc mvc
 
     @Autowired
-    ObjectMapper objectMapper
-
-    @Autowired
-    private OrderRepository repository
-
-    @Autowired
-    private ProductRepository productRepository
+    private OrderRepository orderRepository
 
     @DirtiesContext
-    def "when delete is performed then the response has status 200 with order"() {
+    def "when delete is performed then the response has status 200"() {
         given:
             createOrder()
             Order order = getOrder()
@@ -54,11 +46,11 @@ class DeleteProductControllerIT extends Specification {
     }
 
     private void createOrder() {
-        repository.save(OrderFixture.anyOrder())
+        orderRepository.save(OrderFixture.anyOrder())
     }
 
     private Order getOrder() {
-        repository.findAll().get(0)
+        orderRepository.findAll().get(0)
     }
 
 }

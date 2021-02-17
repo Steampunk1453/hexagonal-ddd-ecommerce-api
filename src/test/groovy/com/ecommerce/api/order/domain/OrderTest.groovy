@@ -4,6 +4,7 @@ import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.model.OrderId
 import com.ecommerce.api.order.domain.model.Product
+import com.ecommerce.api.order.domain.model.customer.Customer
 
 import spock.lang.Specification
 
@@ -52,6 +53,34 @@ class OrderTest extends Specification {
         then:
             result.orderItems().size() == 0
             result.totalPrice() == BigDecimal.ZERO
+    }
+
+    def 'should add a customer to an order'() {
+        given:
+            Customer customer = CustomerFixture.anyCustomer()
+            Order order = OrderFixture.anyOrder()
+        when:
+            order.addCustomer(customer)
+            Customer result = order.getCustomer()
+        then:
+            result.id() == customer.id()
+            result.name() == customer.name()
+            result.surname() == customer.surname()
+            result.address() == customer.address()
+            result.address().street() == customer.address().street()
+            result.address().number() == customer.address().number()
+            result.address().cp() == customer.address().cp()
+            result.address().town() == customer.address().town()
+    }
+
+    def 'should remove a customer from an order'() {
+        given:
+            Order order = OrderFixture.anyOrder()
+        when:
+            order.removeCustomer()
+            Order result = order
+        then:
+            result.getCustomer() == null
     }
 
     def 'should throw business exception when add a null product to an order'() {

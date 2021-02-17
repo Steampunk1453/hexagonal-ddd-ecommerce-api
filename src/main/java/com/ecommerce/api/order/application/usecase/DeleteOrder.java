@@ -6,7 +6,7 @@ import com.ecommerce.api.order.domain.port.OrderRepository;
 
 public record DeleteOrder(OrderRepository repository) {
 
-    public void execute(UUID uuid) {
+    public void execute(final UUID uuid) {
        repository.delete(uuid);
     }
 

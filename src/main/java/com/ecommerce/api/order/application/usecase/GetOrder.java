@@ -8,7 +8,7 @@ import com.ecommerce.api.order.domain.port.OrderRepository;
 
 public record GetOrder(OrderRepository repository) {
 
-    public Order execute(UUID id) {
+    public Order execute(final UUID id) {
         return repository.findById(id).orElseThrow(() -> new BusinessException("Order not found"));
     }
 
