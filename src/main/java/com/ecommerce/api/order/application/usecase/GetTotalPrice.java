@@ -8,7 +8,7 @@ import com.ecommerce.api.order.domain.port.OrderRepository;
 
 public record GetTotalPrice(OrderRepository repository) {
 
-    public BigDecimal execute(UUID id) {
+    public BigDecimal execute(final UUID id) {
         final var order = repository.findById(id).orElseThrow(() -> new BusinessException("Order not found"));
         return order.totalPrice();
     }

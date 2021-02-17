@@ -7,7 +7,7 @@ import com.ecommerce.api.order.domain.port.OrderRepository;
 
 public record DeleteProduct(OrderRepository repository) {
 
-    public void execute(UUID orderId, UUID productId) {
+    public void execute(final UUID orderId, final UUID productId) {
         final var order = repository.findById(orderId).orElseThrow(() -> new BusinessException("Order not found"));
         order.removeProduct(productId);
         repository.save(order);
