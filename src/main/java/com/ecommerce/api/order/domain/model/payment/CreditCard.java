@@ -4,11 +4,11 @@ import java.util.Date;
 
 import com.ecommerce.api.order.adapter.web.request.PayOrderRequest;
 
-public record CreditCard(String cardName, String cardNumber, Date expirationDate, String verificationCode) {
+public record CreditCard(String cardholder, String cardNumber, Date expirationDate, String verificationCode) {
 
     public static CreditCard toDomain(final PayOrderRequest request) {
         return new CreditCard(
-            request.cardName(),
+            request.cardholder(),
             request.cardNumber(),
             request.expirationDate(),
             request.verificationCode());
