@@ -11,10 +11,12 @@ import com.ecommerce.api.order.application.usecase.GetAllOrders;
 import com.ecommerce.api.order.application.usecase.GetOrder;
 import com.ecommerce.api.order.application.usecase.GetTotalPrice;
 import com.ecommerce.api.order.application.usecase.PayOrder;
+import com.ecommerce.api.order.application.usecase.ShipOrder;
 import com.ecommerce.api.order.domain.model.discount.PriceCalculatorService;
 import com.ecommerce.api.order.domain.port.OrderRepository;
 import com.ecommerce.api.order.domain.port.PaymentRepository;
 import com.ecommerce.api.order.domain.port.ProductRepository;
+import com.ecommerce.api.order.domain.port.ShippingRepository;
 
 @Configuration
 public class OrderConfig {
@@ -63,5 +65,12 @@ public class OrderConfig {
     GetTotalPrice getTotalPrice(final OrderRepository orderRepository) {
         return new GetTotalPrice(orderRepository);
     }
+
+    @Bean
+    ShipOrder shipOrder(final OrderRepository orderRepository,
+                        final ShippingRepository shippingRepository) {
+        return new ShipOrder(orderRepository, shippingRepository);
+    }
+
 
 }
