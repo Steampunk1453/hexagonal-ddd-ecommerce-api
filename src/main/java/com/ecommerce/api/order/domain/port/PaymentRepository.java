@@ -6,6 +6,8 @@ import com.ecommerce.api.order.domain.model.payment.CreditCard;
 
 public interface PaymentRepository {
 
-    boolean pay(BigDecimal money, CreditCard creditCard);
+    boolean validateCreditCard(CreditCard creditCard);
+
+    void pay(BigDecimal amount, CreditCard creditCard);
 
 }

@@ -21,7 +21,7 @@ class PayOrderTest extends Specification {
     PayOrder payOrder = new PayOrder(orderRepository, paymentRepository)
 
     @Unroll
-    def 'should pay an order with credit card with paid: #isPaid'() {
+    def 'should pay an order with credit card with isValid: #isValid'() {
         given:
             Order order = Spy(OrderFixture.anyOrder())
             UUID orderId = UUID.randomUUID()
@@ -30,12 +30,12 @@ class PayOrderTest extends Specification {
             payOrder.execute(orderId, creditCard)
         then:
             1 * orderRepository.findById(_ as UUID) >> Optional.of(order)
-            1 * paymentRepository.pay(_ as BigDecimal, _ as CreditCard) >> isPaid
-            times * orderRepository.save(_ as Order)
+            1 * paymentRepository.validateCreditCard(_ as CreditCard) >> isValid
+            times * paymentRepository.pay(_ as BigDecimal, _ as CreditCard)
         where:
-            isPaid || times
-            true   || 1
-            false  || 0
+            isValid || times
+            true    || 1
+            false   || 0
     }
 
     def 'should throw business exception when pay an order with credit card and OrderRepository returns null'() {

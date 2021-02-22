@@ -11,8 +11,8 @@ public record PayOrder(OrderRepository orderRepository, PaymentRepository paymen
 
     public void execute(final UUID orderId, final CreditCard creditCard) {
         final var order = orderRepository.findById(orderId).orElseThrow(() -> new BusinessException("Order not found"));
-        if (paymentRepository.pay(order.totalPrice(), creditCard)) {
-            orderRepository.save(order);
+        if (paymentRepository.validateCreditCard(creditCard)) {
+            paymentRepository.pay(order.totalPrice(), creditCard);
         }
     }
 
