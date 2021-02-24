@@ -9,11 +9,11 @@ import java.util.UUID;
 import com.ecommerce.api.order.domain.model.Order;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record GetOrderResponse(@JsonProperty UUID id, @JsonProperty List<OrderItemResponse> orderItems,
-                               @JsonProperty BigDecimal totalPrice) {
+public record OrderResponse(@JsonProperty UUID id, @JsonProperty List<OrderItemResponse> orderItems,
+                            @JsonProperty BigDecimal totalPrice) {
 
-    public static GetOrderResponse toResponse(final Order order) {
-        return new GetOrderResponse(
+    public static OrderResponse toResponse(final Order order) {
+        return new OrderResponse(
             order.id().value(),
             toOrderItemsResponse(order.orderItems()),
             order.totalPrice());

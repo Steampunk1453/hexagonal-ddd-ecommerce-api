@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.api.order.adapter.web.response.GetOrderResponse;
+import com.ecommerce.api.order.adapter.web.response.OrderResponse;
 import com.ecommerce.api.order.application.usecase.GetAllOrders;
 
 @RestController
@@ -20,11 +20,11 @@ public class GetOrdersController {
     }
 
     @GetMapping("/orders")
-    public List<GetOrderResponse> getAll() {
+    public List<OrderResponse> getAll() {
         final var orders = getAllOrders.execute();
         return orders.stream()
             .filter(Objects::nonNull)
-            .map(GetOrderResponse::toResponse)
+            .map(OrderResponse::toResponse)
             .collect(Collectors.toList());
     }
 
