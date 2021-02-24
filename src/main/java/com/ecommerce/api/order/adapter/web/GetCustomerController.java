@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.api.order.adapter.web.response.GetCustomerResponse;
+import com.ecommerce.api.order.adapter.web.response.CustomerResponse;
 import com.ecommerce.api.order.application.usecase.GetCustomer;
 
 @RestController
@@ -19,9 +19,9 @@ public class GetCustomerController {
     }
 
     @GetMapping("/customers/{customerId}")
-    public GetCustomerResponse get(@PathVariable("customerId") final UUID customerId) {
+    public CustomerResponse get(@PathVariable("customerId") final UUID customerId) {
         final var customer = getCustomer.execute(customerId);
-        return GetCustomerResponse.toResponse(customer);
+        return CustomerResponse.toResponse(customer);
     }
 
 }
