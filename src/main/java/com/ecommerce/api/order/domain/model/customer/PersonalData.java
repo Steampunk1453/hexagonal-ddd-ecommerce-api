@@ -1,5 +1,7 @@
 package com.ecommerce.api.order.domain.model.customer;
 
-public record PersonalData(String name, String surname) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record PersonalData(@JsonProperty String name, @JsonProperty String surname) {
 
 }
