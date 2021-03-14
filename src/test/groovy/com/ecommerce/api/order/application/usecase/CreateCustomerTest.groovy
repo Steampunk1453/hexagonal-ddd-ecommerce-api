@@ -7,11 +7,10 @@ import com.ecommerce.api.order.domain.model.customer.Customer
 import com.ecommerce.api.order.domain.model.customer.PersonalData
 import com.ecommerce.api.order.domain.port.CustomerRepository
 import com.ecommerce.api.order.domain.port.OrderRepository
-
 import spock.lang.Specification
 import spock.lang.Subject
 
-class CreteCustomerTest extends Specification {
+class CreateCustomerTest extends Specification {
 
     CustomerRepository customerRepository = Mock()
 
