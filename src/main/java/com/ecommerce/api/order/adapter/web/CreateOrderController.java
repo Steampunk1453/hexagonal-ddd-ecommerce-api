@@ -3,6 +3,7 @@ package com.ecommerce.api.order.adapter.web;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class CreateOrderController {
         this.createOrder = createOrder;
     }
 
-    @PostMapping("/orders")
+    @PostMapping(value = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<UUID> create(@RequestBody final CreateOrderRequest request) {
         final var orderId = createOrder.execute(request.productId(), request.quantity());
         return new ResponseEntity<>(orderId.value(), HttpStatus.CREATED);

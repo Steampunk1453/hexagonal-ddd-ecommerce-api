@@ -4,7 +4,6 @@ import com.ecommerce.api.order.domain.OrderFixture
 import com.ecommerce.api.order.domain.model.BusinessException
 import com.ecommerce.api.order.domain.model.Order
 import com.ecommerce.api.order.domain.port.OrderRepository
-
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -15,7 +14,7 @@ class GetOrderTest extends Specification {
     @Subject
     GetOrder getOrder = new GetOrder(repository)
 
-    def 'should get an find by id'() {
+    def 'should get an order find by id'() {
         given:
             Order order = OrderFixture.anyOrder()
             UUID id = UUID.randomUUID()
