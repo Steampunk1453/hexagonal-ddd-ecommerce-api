@@ -11,7 +11,7 @@ import com.ecommerce.api.order.domain.port.ProductRepository;
 
 public record CreateOrder(OrderRepository orderRepository,
                           ProductRepository productRepository,
-                          PriceCalculatorService priceCalculatorService ) {
+                          PriceCalculatorService priceCalculatorService) {
 
     public OrderId execute(final UUID productId, final Integer quantity) {
         final var orderId = OrderId.of(UUID.randomUUID());
