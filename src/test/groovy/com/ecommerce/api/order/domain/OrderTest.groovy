@@ -38,9 +38,29 @@ class OrderTest extends Specification {
             Order result = order
         then:
             result.id().value() == order.id().value()
-            result.orderItems()[1].product() == newProduct
             result.orderItems().size() == 2
+            result.orderItems()[1].product() == newProduct
             result.totalPrice() == 27.50
+    }
+
+    def 'should update a previous product with new quantity'() {
+        given:
+            Order order = OrderFixture.anyOrder()
+            UUID productId = order.orderItems().get(0).product().id()
+            BigDecimal productPrice = new BigDecimal(2.50)
+            Product oldProduct = new Product(productId, "STICKER", "oldProduct", productPrice)
+            Integer productQuantity = 2
+            BigDecimal itemPrice = new BigDecimal(5.00)
+        when:
+            order.addProduct(oldProduct, productQuantity, itemPrice)
+            Order result = order
+        then:
+            result.id().value() == order.id().value()
+            result.orderItems().size() == 1
+            result.orderItems()[0].product().id() == oldProduct.id()
+            result.orderItems()[0].quantity() == 3
+            result.orderItems()[0].price() == 7.50
+            result.totalPrice() == 7.50
     }
 
     def 'should remove a product from an order'() {
