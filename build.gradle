@@ -1,20 +1,27 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.0'
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'org.springframework.boot' version '2.5.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'groovy'
 }
 
 group = 'com.ecommerce.api'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '16'
+
 
 repositories {
 	mavenCentral()
 }
 
+ext {
+	set('groovy.version', "3.0.6")
+}
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.codehaus.groovy:groovy:3.0.5'
+	implementation 'org.codehaus.groovy:groovy'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.22.Final'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
@@ -26,14 +33,6 @@ dependencies {
 	testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
 	testImplementation 'org.codehaus.groovy:groovy-all:3.0.6'
 	testImplementation'org.spockframework:spock-spring:2.0-M3-groovy-3.0'
-}
-
-compileJava {
-	options.compilerArgs += ['--enable-preview']
-}
-
-tasks.withType(Test).all {
-	jvmArgs += '--enable-preview'
 }
 
 test {
