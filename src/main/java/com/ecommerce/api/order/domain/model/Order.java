@@ -39,18 +39,8 @@ public class Order {
     }
 
     public void addProduct(final Product product, final Integer quantity, final BigDecimal itemPrice) {
-        boolean isUpdate = false;
         validateProduct(product);
-        for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext(); ) {
-            OrderItem orderItem = iterator.next();
-            isUpdate = isUpdate(product, orderItem);
-            if (isUpdate) {
-                updateProduct(orderItem, quantity, itemPrice);
-            }
-        }
-        if (!isUpdate) {
-            orderItems.add(new OrderItem(product, quantity, itemPrice));
-        }
+        handleUpdateProduct(product, quantity, itemPrice);
         totalPrice = totalPrice.add(itemPrice);
     }
 
@@ -83,6 +73,20 @@ public class Order {
     private void validateProduct(final Product product) {
         if (product == null) {
             throw new BusinessException("The product cannot be null");
+        }
+    }
+
+    private void handleUpdateProduct(Product product, Integer quantity, BigDecimal itemPrice) {
+        boolean isUpdate = false;
+        for (int i = 0, orderItemsSize = orderItems.size(); i < orderItemsSize; i++) {
+            OrderItem orderItem = orderItems.get(i);
+            isUpdate = isUpdate(product, orderItem);
+            if (isUpdate) {
+                updateProduct(orderItem, quantity, itemPrice);
+            }
+        }
+        if (!isUpdate) {
+            orderItems.add(new OrderItem(product, quantity, itemPrice));
         }
     }
 
