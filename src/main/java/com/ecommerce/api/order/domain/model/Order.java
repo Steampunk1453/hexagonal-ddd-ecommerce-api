@@ -1,8 +1,10 @@
 package com.ecommerce.api.order.domain.model;
 
+import static java.util.Collections.singletonList;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +22,7 @@ public class Order {
 
     public Order(final OrderId id, final Product product, final Integer quantity, final BigDecimal itemPrice) {
         this.id = id;
-        this.orderItems = new ArrayList<>(Collections.singletonList(new OrderItem(product, quantity, itemPrice)));
+        this.orderItems = new ArrayList<>(singletonList(new OrderItem(product, quantity, itemPrice)));
         this.totalPrice = itemPrice;
     }
 
@@ -38,7 +40,7 @@ public class Order {
 
     public void addProduct(final Product product, final Integer quantity, final BigDecimal itemPrice) {
         validateProduct(product);
-        orderItems.add(new OrderItem(product, quantity, itemPrice));
+        handleUpdateProduct(product, quantity, itemPrice);
         totalPrice = totalPrice.add(itemPrice);
     }
 
@@ -52,16 +54,20 @@ public class Order {
         this.customer = customer;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
     public void removeCustomer() {
         this.customer = null;
     }
 
     private OrderItem getOrderItem(final UUID productId) {
         return orderItems.stream()
-            .filter(orderItem -> orderItem.product().id()
-                .equals(productId))
-            .findFirst()
-            .orElseThrow(() -> new BusinessException("Product with " + productId + " doesn't exist"));
+                .filter(orderItem -> orderItem.product().id()
+                        .equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("Product with " + productId + " doesn't exist"));
     }
 
     private void validateProduct(final Product product) {
@@ -70,7 +76,29 @@ public class Order {
         }
     }
 
-    public Customer getCustomer() {
-        return customer;
+    private void handleUpdateProduct(Product product, Integer quantity, BigDecimal itemPrice) {
+        boolean isUpdate = false;
+        for (int i = 0, orderItemsSize = orderItems.size(); i < orderItemsSize; i++) {
+            OrderItem orderItem = orderItems.get(i);
+            isUpdate = isUpdate(product, orderItem);
+            if (isUpdate) {
+                updateProduct(orderItem, quantity, itemPrice);
+            }
+        }
+        if (!isUpdate) {
+            orderItems.add(new OrderItem(product, quantity, itemPrice));
+        }
     }
+
+    private boolean isUpdate(Product product, OrderItem orderItem) {
+        return orderItem.product().id().equals(product.id());
+    }
+
+    private void updateProduct(final OrderItem orderItem, final Integer quantity, final BigDecimal itemPrice) {
+        var newOrderItem = new OrderItem(orderItem.product(), orderItem.quantity() + quantity,
+                orderItem.price().add(itemPrice));
+        orderItems.remove(orderItem);
+        orderItems.add(newOrderItem);
+    }
+
 }

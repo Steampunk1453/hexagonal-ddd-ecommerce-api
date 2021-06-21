@@ -8,6 +8,7 @@ import com.ecommerce.api.order.application.usecase.CreateOrder;
 import com.ecommerce.api.order.application.usecase.DeleteOrder;
 import com.ecommerce.api.order.application.usecase.DeleteProduct;
 import com.ecommerce.api.order.application.usecase.GetAllOrders;
+import com.ecommerce.api.order.application.usecase.GetAllProducts;
 import com.ecommerce.api.order.application.usecase.GetOrder;
 import com.ecommerce.api.order.application.usecase.GetTotalPrice;
 import com.ecommerce.api.order.application.usecase.PayOrder;
@@ -59,6 +60,11 @@ public class OrderConfig {
     @Bean
     DeleteProduct deleteProduct(final OrderRepository orderRepository) {
         return new DeleteProduct(orderRepository);
+    }
+
+    @Bean
+    GetAllProducts getAllProducts(final ProductRepository productRepository) {
+        return new GetAllProducts(productRepository);
     }
 
     @Bean
